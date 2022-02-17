@@ -10,7 +10,6 @@ export default function App() {
           paddingBottom: "1rem"
         }}
       >
-        <Link to="/Dashboard">Dashboard</Link> |{" "}
         <Link to="/Login">Login</Link> |{" "}
         <Link to="/Register">Register</Link>
       </nav>

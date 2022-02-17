@@ -17,7 +17,6 @@ import Dashboard from "./Dashboard"
 import Register from "./Register"
 
 function Login() {
-    
     let navigate = useNavigate();
 
     const [registerEmail, setRegisterEmail] = useState("");
@@ -67,24 +66,11 @@ function Login() {
 
     const logout = async () => {
         await signOut(auth);
+        navigate('/App');
     }
             
     return (
         <div className="Login">
-        <div>
-            <h3>Register</h3>
-            <input placeholder="Email" 
-            onChange={(event) => {
-            setRegisterEmail(event.target.value);
-            }}
-            />
-            <input placeholder="Password" 
-            onChange={(event) => {
-            setRegisterPassword(event.target.value);
-            }}
-            />
-            <button onClick={register}>Create User</button>
-        </div>
 
         <div>
             <h3>Login</h3>
@@ -100,10 +86,10 @@ function Login() {
             />
             <button onClick={login}>Login</button>
         </div>
-
+        <br /> 
         <div>
-            <h3>User Logged In:{user?.email}</h3>
-            <button onClick={logout}>Sign Out</button>
+            Don't have an account?
+            <Link to="/Register"> Register now</Link>
         </div>
 
         </div>
