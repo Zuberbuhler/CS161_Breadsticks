@@ -1,11 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import App from './components/App';
+import Dashboard from "./components/Dashboard";
+import Register from "./components/Register";
+import Login from "./components/Login";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="Login" element={<Login />} />
+      <Route path="Dashboard" element={<Dashboard />} />
+      <Route path="Register" element={<Register />} />
+    </Routes>
+  </BrowserRouter>,
   document.getElementById('root')
 );
+
