@@ -10,6 +10,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  getAuth,
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase";
@@ -25,11 +26,15 @@ function Login() {
     const [loginPassword, setLoginPassword] = useState("");
 
     const [user, setUser] = useState({})
-
+    
+    const auth = getAuth();
     onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    })
-
+    if (currentUser) {
+        navigate('/Dashboard');
+        const uid = currentUser.uid;
+    }
+    });
+    
     const register = async () => {
         try {
         // creates a user and logs in automatically
