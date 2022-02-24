@@ -1,6 +1,27 @@
-import { Link } from "react-router-dom";
+import {   
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  Link  
+} from "react-router-dom";
+import {
+  onAuthStateChanged,
+  getAuth,
+} from "firebase/auth";
 
+// landing page
 export default function App() {
+  let navigate = useNavigate();
+
+  const auth = getAuth();
+  onAuthStateChanged(auth, (currentUser) => {
+  if (currentUser) {
+      navigate('/Dashboard');
+      const uid = currentUser.uid;
+  }
+  });
+
   return (
     <div>
       <h1>Breadsticks</h1>

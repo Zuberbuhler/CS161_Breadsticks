@@ -10,6 +10,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  getAuth,
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase";
@@ -24,9 +25,13 @@ export default function Register() {
 
     const [user, setUser] = useState({})
 
+    const auth = getAuth();
     onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    })
+    if (currentUser) {
+        navigate('/Dashboard');
+        const uid = currentUser.uid;
+    }
+    });
 
     const register = async () => {
         try {
@@ -47,6 +52,7 @@ export default function Register() {
             
     return (
         <div className="Login">
+        
         <div>
             <h3>Register</h3>
             <input placeholder="Email" 
@@ -60,6 +66,11 @@ export default function Register() {
             }}
             />
             <button onClick={register}>Create User</button>
+        </div>
+        <br /> 
+        <div>
+            Already have an account?
+            <Link to="/Login"> Login</Link>
         </div>
 
         </div>
