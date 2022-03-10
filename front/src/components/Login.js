@@ -17,6 +17,8 @@ import { auth } from "../firebase";
 import Dashboard from "./Dashboard"
 import Register from "./Register"
 
+/* ---------------------------------------------------------- */
+
 function Login() {
     let navigate = useNavigate();
 
@@ -26,6 +28,10 @@ function Login() {
     const [user, setUser] = useState({})
     
     const auth = getAuth();
+
+    /*
+    If the user is already logged in and navigates to this page, redirect to Dashboard
+    */
     onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
         navigate('/Dashboard');
@@ -33,13 +39,49 @@ function Login() {
     }
     });
 
+    /*
+    Logs in with provided email and password
+    */
     const login = async () => {
+        if (loginEmail == "" || loginPassword == "") {
+            alert("Please do not leave any inputs blank")
+        }
+        else {
+            try {
+                const user = await signInWithEmailAndPassword(
+                    auth,
+                    loginEmail,
+                    loginPassword
+                 );
+                 
+                console.log(user);
+                navigate('/Dashboard');
+            } 
+            catch (error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+
+                if (errorCode == 'auth/invalid-email' || errorCode == 'auth/wrong-password') {
+                    alert('Username or password is incorrect')
+                }
+                else {
+                    alert(errorMessage)
+                }
+                console.log(error.message);
+            }
+        }
+
+    }
+
+    /*
+    Logs in with the preregistered account "tester@gmail.com"
+    */
+    const testing_login = async () => {
         try {
-            console.log("hello");
             const user = await signInWithEmailAndPassword(
                 auth,
-                loginEmail,
-                loginPassword
+                "tester@gmail.com",
+                "123456"
              );
              
             console.log(user);
@@ -50,6 +92,9 @@ function Login() {
         }
     }
 
+    /*
+    Logs the user out and navigates to the landing page
+    */
     const logout = async () => {
         await signOut(auth);
         navigate('/App');
@@ -71,13 +116,14 @@ function Login() {
             }}
             />
             <button onClick={login}>Login</button>
+            <button onClick={testing_login}>Testing</button>
         </div>
         <br /> 
         <div>
             Don't have an account?
             <Link to="/Register"> Register now</Link>
         </div>
-
+        
         </div>
     );
 }

@@ -7,11 +7,13 @@ import {
 
 import io from "socket.io-client";
 
+/* ---------------------------------------------------------- */
+
 const socket = io.connect("http://localhost:3001");
 
-const Rooms = ({userName}) => {
+const Rooms = () => {
 
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("xd");
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
 
@@ -28,12 +30,11 @@ const Rooms = ({userName}) => {
     }
   };
 
-
   return (
     <div>
       {!showChat ? (
         <div className="joinChatContainer">
-          <h3>Join A Room</h3>
+          <h3>Join A Room, {username}</h3>
           <input
             type="text"
             placeholder="John..."

@@ -5,12 +5,13 @@ import {
     useNavigate,
   } from "react-router-dom";
 
-function Chat({ socket, username, room, setShowChat}) {
+  /* ---------------------------------------------------------- */
+
+function Chat({socket, username, room, setShowChat}) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
   let navigate = useNavigate();
-
 
   const leaveRoom = () => {
     socket.emit("leave_room", {username, room});
