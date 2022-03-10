@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  useLocation,
   Link, 
   Navigate
 } from "react-router-dom";
@@ -15,6 +16,8 @@ import {
   signOut,
 } from "firebase/auth";
 
+/* ---------------------------------------------------------- */
+
 export default function Dashboard() {
     let navigate = useNavigate();
 
@@ -24,6 +27,11 @@ export default function Dashboard() {
     const [user, setUser] = useState({})
 
     const auth = getAuth();
+    
+    /*
+    If the user is NOT already logged in and navigates to this 
+    page, redirect to landing page
+    */
     onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser)
         if (!currentUser) {
@@ -32,11 +40,17 @@ export default function Dashboard() {
         }
     });
 
+    /*
+    Logs out and navigates to the landing page
+    */
     const logout = async () => {
         await signOut(auth);
         navigate('/');
     }
 
+    /*
+    Navigates to the Rooms page
+    */
     const rooms = async () => {
         navigate('/Rooms');
     }

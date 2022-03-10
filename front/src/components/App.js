@@ -10,7 +10,8 @@ import {
 
 import "./App.css"
 
-// landing page
+/* ---------------------------------------------------------- */
+
 export default function App() {
   let navigate = useNavigate();
 

@@ -10,7 +10,6 @@ import Dashboard from "./components/Dashboard";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Rooms from "./components/Rooms";
-import Room from "./components/Room";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -20,7 +19,6 @@ ReactDOM.render(
       <Route path="Dashboard" element={<Dashboard />} />
       <Route path="Register" element={<Register />} />
       <Route path="Rooms" element={<Rooms />} />
-      <Route path="Room" element={<Room />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
