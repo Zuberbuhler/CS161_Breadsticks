@@ -34,7 +34,8 @@ export default function Register() {
     */
     onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
-        navigate('/Dashboard', {state: {email: registerEmail}});
+        setUser(currentUser)
+        navigate('/Dashboard');
         const uid = currentUser.uid;
     }
     });
