@@ -33,10 +33,11 @@ export default function Dashboard() {
     page, redirect to landing page
     */
     onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser)
         if (!currentUser) {
             navigate('/');
-            const uid = currentUser.uid;
+        }
+        else {
+            setUser(currentUser)
         }
     });
 
