@@ -11,6 +11,7 @@ function Chat({socket, username, room, setShowChat}) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [clients, setClients] = useState([]);
+  const [users, setUsers] = useState([]);
 
   let navigate = useNavigate();
 
