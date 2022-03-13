@@ -10,7 +10,7 @@ import Dashboard from "./components/Dashboard";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Rooms from "./components/Rooms";
-import TicTacToeGame from "./components/TicTacToeGame";
+import GameClient from "./components/GameClient";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -20,9 +20,8 @@ ReactDOM.render(
       <Route path="Dashboard" element={<Dashboard />} />
       <Route path="Register" element={<Register />} />
       <Route path="Rooms" element={<Rooms />} />
-      <Route path="TicTacToeGame" element={<TicTacToeGame />} />
+      <Route path="GameClient" element={<GameClient />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
 );
-
