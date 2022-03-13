@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types'
 import Chat from './Chat'
 import { 
@@ -20,24 +20,24 @@ const socket = io.connect("http://localhost:3001");
 const Rooms = () => {
 
   const auth = getAuth();
+  let navigate = useNavigate();
+
+  const [user, setUser] = useState({});
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
-  const [user, setUser] = useState({});
-
-  let navigate = useNavigate();
 
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
         setUser(currentUser)
-        var str = user?.email;
-        str = str.substring(0, str.indexOf('@'));
-        setUsername(str)
+        const email = user?.email || '';
+        let name = email.substring(0, email.indexOf('@'));
+        setUsername(name);
     }
     else {
       navigate('/');
     }
-    });
+  });
 
   const back = async () => {
     navigate('/Dashboard');
@@ -67,7 +67,10 @@ const Rooms = () => {
         </div>
         
       ) : (
-        <Chat socket={socket} username={username} room={room} setShowChat={setShowChat} />
+        <div>
+          <Chat socket={socket} username={username} room={room} setShowChat={setShowChat} />
+        </div>
+        
       )}
     </div>
   )

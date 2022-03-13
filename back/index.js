@@ -14,11 +14,41 @@ const io = new Server(server, {
   },
 });
 
+async function retrieveSockets(room) {
+  const connectedSockets = await io.in(room).fetchSockets()
+}
+
+function getActiveRooms(io) {
+  // Convert map into 2D list:
+  // ==> [['4ziBKG9XFS06NdtVAAAH', Set(1)], ['room1', Set(2)], ...]
+  const arr = Array.from(io.sockets.adapter.rooms);
+  // Filter rooms whose name exist in set:
+  // ==> [['room1', Set(2)], ['room2', Set(2)]]
+  const filtered = arr.filter(room => !room[1].has(room[0]))
+  // Return only the room name: 
+  // ==> ['room1', 'room2']
+  const res = filtered.map(i => i[0]);
+  return res;
+}
+
+function getClients(io, roomname) {
+  const clients = io.sockets.adapter.rooms.get(roomname)
+  console.log(clients);
+  const arr = Array.from(clients);
+  return arr;
+}
+
 io.on("connection", (socket) => {
+
   console.log(`User Connected: ${socket.id}`);
 
   socket.on("join_room", ({username, room}) => {
     socket.join(room);
+
+    let y = getClients(io, room);
+    socket.emit("update_clients", {y: y});
+    socket.to(room).emit("update_clients", {y: y});
+
     console.log(`User with ID: ${socket.id} (username: ${username}) joined room: ${room}`);
 
     const welcomeMessageData = {
@@ -42,7 +72,7 @@ io.on("connection", (socket) => {
         ":" +
         new Date(Date.now()).getMinutes(),
     };
-    
+
     socket.to(room).emit("receive_message", messageData);
   });
 
@@ -52,6 +82,12 @@ io.on("connection", (socket) => {
 
   socket.on("leave_room", ({username, room}) => {
     console.log(`User with Socket ID: ${socket.id}(username: ${username}) left room: ${room}`);
+    socket.leave(room);
+
+    let y = getClients(io, room);
+    // socket.emit("update_clients", {y: y});
+    socket.to(room).emit("update_clients", {y: y});
+
     const messageData = {
       room: room,
       author: "chatBot",
@@ -68,6 +104,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
   });
+
 });
 
 server.listen(3001, () => {

@@ -76,11 +76,30 @@ function Login() {
     /*
     Logs in with the preregistered account "tester@gmail.com"
     */
-    const testing_login = async () => {
+    const tester_login = async () => {
         try {
             const user = await signInWithEmailAndPassword(
                 auth,
                 "tester@gmail.com",
+                "123456"
+             );
+             
+            console.log(user);
+            navigate('/Dashboard');
+        } 
+        catch (error) {
+            console.log(error.message);
+        }
+    }
+
+        /*
+    Logs in with the preregistered account "tester2@gmail.com"
+    */
+    const tester2_login = async () => {
+        try {
+            const user = await signInWithEmailAndPassword(
+                auth,
+                "tester2@gmail.com",
                 "123456"
              );
              
@@ -116,12 +135,17 @@ function Login() {
             }}
             />
             <button onClick={login}>Login</button>
-            <button onClick={testing_login}>Testing</button>
         </div>
+
         <br /> 
         <div>
             Don't have an account?
             <Link to="/Register"> Register now</Link>
+        </div>
+
+        <div>
+            <button onClick={tester_login}>Login as tester</button>
+            <button onClick={tester2_login}>Login as tester2</button>
         </div>
         
         </div>
