@@ -25,8 +25,8 @@ const Rooms = () => {
   const [user, setUser] = useState({});
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
+  const [rooms, setRooms] = useState([]);
   const [showChat, setShowChat] = useState(false);
-  const [messageList, setMessageList] = useState([]);
 
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
@@ -52,14 +52,20 @@ const Rooms = () => {
   };
 
   useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessageList((list) => [...list, data]);
+    socket.on("rooms_list", (list) => {
+      if (list.length == 0) {
+        setRooms(["no rooms!"])
+      }
+      else {
+        setRooms(list);
+        console.log(list);
+      }
     });
   }, [socket]);
 
   const getActiveRooms = () => {
     socket.emit("get_rooms");
-  }
+  };
 
   return (
     <div>
@@ -74,6 +80,8 @@ const Rooms = () => {
             }}
           />
           <button type='submit' onClick={joinRoom}>Join</button>
+          <button onClick={getActiveRooms}>Refresh Active Rooms</button>
+          <h1>{rooms}</h1>
           <button onClick={back}> Back to Dashboard </button> 
         </div>
         
