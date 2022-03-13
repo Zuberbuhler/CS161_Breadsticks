@@ -26,6 +26,7 @@ const Rooms = () => {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
+  const [messageList, setMessageList] = useState([]);
 
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
@@ -49,6 +50,16 @@ const Rooms = () => {
       setShowChat(true);
     }
   };
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessageList((list) => [...list, data]);
+    });
+  }, [socket]);
+
+  const getActiveRooms = () => {
+    socket.emit("get_rooms");
+  }
 
   return (
     <div>
