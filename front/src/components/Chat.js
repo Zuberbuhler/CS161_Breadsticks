@@ -5,11 +5,12 @@ import {
     useNavigate,
   } from "react-router-dom";
 
-  /* ---------------------------------------------------------- */
+/* ---------------------------------------------------------- */
 
 function Chat({socket, username, room, setShowChat}) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const [clients, setClients] = useState([]);
 
   let navigate = useNavigate();
 
@@ -37,9 +38,17 @@ function Chat({socket, username, room, setShowChat}) {
     }
   };
 
+  /* Chat updates every time a message is recieved */
   useEffect(() => {
     socket.on("receive_message", (data) => {
       setMessageList((list) => [...list, data]);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on("update_clients", ({y}) => {
+      setClients(y);
+      console.log(y);
     });
   }, [socket]);
 
@@ -84,7 +93,10 @@ function Chat({socket, username, room, setShowChat}) {
         />
         <button onClick={sendMessage}>&#9658;</button>
       </div>
-      <div><button onClick={leaveRoom}> Leave Room </button> </div>
+      <div>
+        <button onClick={leaveRoom}> Leave Room </button>
+        <h3>Users: {clients}</h3>
+      </div>
     </div>
   );
 }

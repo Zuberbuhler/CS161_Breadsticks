@@ -16,6 +16,7 @@ export default function App() {
   let navigate = useNavigate();
 
   const auth = getAuth();
+
   onAuthStateChanged(auth, (currentUser) => {
   if (currentUser) {
       navigate('/Dashboard');
