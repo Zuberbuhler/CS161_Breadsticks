@@ -35,7 +35,7 @@ export default function App() {
       >
         <p><Link to="/Login">Login</Link></p>
         <p><Link to="/Register">Register</Link></p>
-        <p><Link to="/TicTacToeGame">TicTacToe</Link></p>
+        <p><Link to="/GameClient">TicTacToe</Link></p>
       </nav>
     </div>
   );
