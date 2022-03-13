@@ -14,10 +14,6 @@ const io = new Server(server, {
   },
 });
 
-async function retrieveSockets(room) {
-  const connectedSockets = await io.in(room).fetchSockets()
-}
-
 function getActiveRooms(io) {
   // Convert map into 2D list:
   // ==> [['4ziBKG9XFS06NdtVAAAH', Set(1)], ['room1', Set(2)], ...]
@@ -32,9 +28,12 @@ function getActiveRooms(io) {
 }
 
 function getClients(io, roomname) {
-  const clients = io.sockets.adapter.rooms.get(roomname)
-  console.log(clients);
-  const arr = Array.from(clients);
+  const y = io.sockets.adapter.rooms.get(roomname)
+  console.log(y);
+  if (y == undefined) {
+    return [];
+  }
+  const arr = Array.from(y);
   return arr;
 }
 
@@ -82,11 +81,6 @@ io.on("connection", (socket) => {
 
   socket.on("leave_room", ({username, room}) => {
     console.log(`User with Socket ID: ${socket.id}(username: ${username}) left room: ${room}`);
-    socket.leave(room);
-
-    let y = getClients(io, room);
-    // socket.emit("update_clients", {y: y});
-    socket.to(room).emit("update_clients", {y: y});
 
     const messageData = {
       room: room,
@@ -99,6 +93,18 @@ io.on("connection", (socket) => {
     };
     
     socket.to(room).emit("receive_message", messageData);
+
+    socket.leave(room);
+    let y = getClients(io, room);
+    socket.to(room).emit("update_clients", {y:y});
+
+    // socket.emit("update_clients", {y: y});
+    
+  });
+
+  socket.on("get_rooms", () => {
+    let list = getActiveRooms(io);
+    socket.emit("rooms_list", (list));
   });
 
   socket.on("disconnect", () => {
