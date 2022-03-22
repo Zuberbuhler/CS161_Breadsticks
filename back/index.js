@@ -48,12 +48,15 @@ io.on("connection", (socket) => {
 
   console.log(`User Connected: ${socket.id}`);
 
+  socket.on("start_game", () => {
+    console.log("the game is starting!!");
+  });
+
   socket.on("join_room", ({username, room}) => {
     socket.join(room);
 
     dictionary[socket.id] = username;
     console.log(dictionary);
-    console.log("wahoo");
 
     let y = getClients(io, room);
     socket.emit("update_clients", {y: y});
