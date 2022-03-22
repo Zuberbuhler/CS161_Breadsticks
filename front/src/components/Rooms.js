@@ -28,6 +28,10 @@ const Rooms = () => {
   const [rooms, setRooms] = useState([]);
   const [showChat, setShowChat] = useState(false);
 
+  /* 
+  checks if the user is logged in. If they aren't, they
+  are sent back to the landing page
+  */
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
         setUser(currentUser)
@@ -40,17 +44,26 @@ const Rooms = () => {
     }
   });
 
+  // navigation function
   const back = async () => {
     navigate('/Dashboard');
   }
 
+  // when a user joins a room
   const joinRoom = () => {
     if (username !== "" && room !== "") {
       socket.emit("join_room", {username, room});
       setShowChat(true);
     }
+    else {
+      alert("Please enter a room ID");
+    }
   };
 
+  /* 
+  The client requests the list of rooms and the server
+  responds. The latter is what this function listens for.
+  */
   useEffect(() => {
     socket.on("rooms_list", (list) => {
       if (list.length == 0) {
@@ -63,6 +76,7 @@ const Rooms = () => {
     });
   }, [socket]);
 
+  // sends a request to the server for a list of active rooms
   const getActiveRooms = () => {
     socket.emit("get_rooms");
   };
@@ -71,7 +85,7 @@ const Rooms = () => {
     <div>
       {!showChat ? (
         <div className="joinChatContainer">
-          <h3>Join A Room, {username}</h3>
+          <h3>{username}</h3>
           <input
             type="text"
             placeholder="Room ID..."

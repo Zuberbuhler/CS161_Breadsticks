@@ -17,6 +17,8 @@ import { auth } from "../firebase";
 import Dashboard from "./Dashboard"
 import Register from "./Register"
 
+import "./css/Login.scss"
+
 /* ---------------------------------------------------------- */
 
 function Login() {
@@ -122,31 +124,43 @@ function Login() {
     return (
         <div className="Login">
 
-        <div>
-            <h3>Login</h3>
-            <input placeholder="Email" 
-            onChange={(event) => {
-            setLoginEmail(event.target.value);
-            }}
-            />
-            <input placeholder="Password" 
-            onChange={(event) => {
-            setLoginPassword(event.target.value);
-            }}
-            />
-            <button onClick={login}>Login</button>
-        </div>
+            <div class="form__group field">
+                <input type="input" class="form__field" 
+                onChange={(event) => {
+                setLoginEmail(event.target.value);
+                }}
+                placeholder="username" name="username" id='username' required />
+                <label for="username" class="form__label">Username</label>
+            </div>
 
-        <br /> 
-        <div>
-            Don't have an account?
-            <Link to="/Register"> Register now</Link>
-        </div>
+            <div class="form__group field">
+                <input type="input" class="form__field" 
+                onChange={(event) => {
+                setLoginPassword(event.target.value);
+                }}
+                placeholder="password" name="password" id='password' required />
+                <label for="password" class="form__label">Password</label>
+            
+            </div>
 
-        <div>
-            <button onClick={tester_login}>Login as tester</button>
-            <button onClick={tester2_login}>Login as tester2</button>
-        </div>
+            <br></br>
+            <button class="button-5" onClick={login}>Login</button>
+            
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div>
+                Don't have an account?
+                <Link to="/Register">Register now</Link>
+            </div>
+
+            <div>
+                <button class="button-3" onClick={tester_login}>Login as tester</button>
+                <button class="button-3" onClick={tester2_login}>Login as tester2</button>
+            </div>
         
         </div>
     );

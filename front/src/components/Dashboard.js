@@ -59,9 +59,9 @@ export default function Dashboard() {
     return (
         <div>
             <h1>DASHBOARD</h1>
-            <h3>User Logged In:{user?.email}</h3>
-            <button onClick={logout}>Log out</button>
-            <button onClick={rooms}>Rooms</button>
+            <h3>Hello, {user?.email}</h3>
+            <button class="button-5" onClick={logout}>Log out</button>
+            <button class="button-5" onClick={rooms}>Rooms</button>
         </div>
     )
 }

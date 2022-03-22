@@ -77,25 +77,38 @@ export default function Register() {
             
     return (
         <div className="Login">
-        
+
+        <div class="form__group field">
+                <input type="input" class="form__field" 
+                onChange={(event) => {
+                setRegisterEmail(event.target.value);
+                }}
+                placeholder="username" name="username" id='username' required />
+                <label for="username" class="form__label">Username</label>
+            </div>
+
+            <div class="form__group field">
+                <input type="input" class="form__field" 
+                onChange={(event) => {
+                setRegisterPassword(event.target.value);
+                }}
+                placeholder="password" name="password" id='password' required />
+                <label for="password" class="form__label">Password</label>
+            
+            </div>
+            <br></br>
+
+            <button class="button-5" onClick={register}>Create User</button>
+
         <div>
-            <h3>Register</h3>
-            <input placeholder="Email" 
-            onChange={(event) => {
-            setRegisterEmail(event.target.value);
-            }}
-            />
-            <input placeholder="Password" 
-            onChange={(event) => {
-            setRegisterPassword(event.target.value);
-            }}
-            />
-            <button onClick={register}>Create User</button>
-        </div>
-        <br /> 
-        <div>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
             Already have an account?
-            <Link to="/Login"> Login</Link>
+            <Link to="/Login">Login</Link>
         </div>
 
         </div>
