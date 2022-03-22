@@ -28,14 +28,21 @@ function getActiveRooms(io) {
 }
 
 function getClients(io, roomname) {
-  const y = io.sockets.adapter.rooms.get(roomname)
-  console.log(y);
-  if (y == undefined) {
+  // returns clients in a dictionary
+  const clients = io.sockets.adapter.rooms.get(roomname)
+  // console.log(y);
+  if (clients == undefined) {
     return [];
   }
-  const arr = Array.from(y);
-  return arr;
+  const clients_array = Array.from(clients);
+  for (var i = 0; i < clients_array.length; i++) { 
+    clients_array[i] = dictionary[clients_array[i]];
+  }
+  return clients_array;
 }
+
+// key value pairs of current users
+var dictionary = {};
 
 io.on("connection", (socket) => {
 
@@ -43,6 +50,10 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", ({username, room}) => {
     socket.join(room);
+
+    dictionary[socket.id] = username;
+    console.log(dictionary);
+    console.log("wahoo");
 
     let y = getClients(io, room);
     socket.emit("update_clients", {y: y});
@@ -91,6 +102,10 @@ io.on("connection", (socket) => {
         ":" +
         new Date(Date.now()).getMinutes(),
     };
+
+    // remove user from key-value pair list
+    delete dictionary[socket.id];
+    console.log(dictionary);
     
     socket.to(room).emit("receive_message", messageData);
 
