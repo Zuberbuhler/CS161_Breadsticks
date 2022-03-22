@@ -1,9 +1,9 @@
 const { Server, Origins } = require('boardgame.io/server');
-import TicTacToe from './components/Game';
-+console.log("My game object is", TicTacToe);
+import BreadsticksGame from './components/Game';
++console.log("My game object is", BreadsticksGame);
 
 const server = Server({
-  games: [TicTacToe],
+  games: [BreadsticksGame],
   origins: [Origins.LOCALHOST],
 });
 
