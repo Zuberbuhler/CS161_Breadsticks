@@ -8,7 +8,7 @@ import {
   getAuth,
 } from "firebase/auth";
 
-import "./App.css"
+import "./css/App.css"
 
 /* ---------------------------------------------------------- */
 
@@ -24,6 +24,18 @@ export default function App() {
   }
   });
 
+  const login = () => {
+    navigate('/Login');
+  }
+
+  const register = () => {
+    navigate('/Register');
+  }
+
+  const gameClient = () => {
+    navigate('/GameClient');
+  }
+
   return (
     <div>
       <h1>Breadsticks</h1>
@@ -33,9 +45,9 @@ export default function App() {
           paddingBottom: "1rem"
         }}
       >
-        <p><Link to="/Login">Login</Link></p>
-        <p><Link to="/Register">Register</Link></p>
-        <p><Link to="/GameClient">BreadsticksGame</Link></p>
+        <button class="button-5" onClick={login}>Login</button>
+        <button class="button-5" onClick={register}>Register</button>
+        <button class="button-5" onClick={gameClient}>Game Demo</button>
       </nav>
     </div>
   );

@@ -48,8 +48,9 @@ function Chat({socket, username, room, setShowChat}) {
 
   useEffect(() => {
     socket.on("update_clients", ({y}) => {
-      setClients(y);
-      console.log(y);
+      let comma_separated = y.join(", ");
+      setClients(comma_separated);
+      console.log(comma_separated);
     });
   }, [socket]);
 
