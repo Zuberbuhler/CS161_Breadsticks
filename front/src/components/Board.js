@@ -1,15 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Board.css';
+import BreadsticksGame from "./Game";
 
 function Board({ ctx, G, moves }) {
-  const onClick = (id) => moves.clickCell(id);
+  const onClick = (id) => 
+  {
+    if(!G.playerPositions.includes(id))
+    moves.clickCell(id) 
+  };
+  const onDiceClick = (id) =>
+  {
+    moves.rollDie(id)
+  }
 
   let winner = '';
   if (ctx.gameover) {
     winner =
       ctx.gameover.winner !== undefined ? (
-        <div id="winner">Winner: {ctx.gameover.winner}</div>
+        <div id="winner">Game Over! Winner: {ctx.gameover.winner}</div>
       ) : (
         <div id="winner">Draw!</div>
       );
@@ -17,9 +26,9 @@ function Board({ ctx, G, moves }) {
 
   const cellStyle = {
     border: '1px solid #555',
-    width: '50px',
-    height: '50px',
-    lineHeight: '50px',
+    width: '100px',
+    height: '100px',
+    lineHeight: '100px',
     textAlign: 'center',
   };
 
@@ -30,16 +39,24 @@ function Board({ ctx, G, moves }) {
       const id = 3 * i + j;
       cells.push(
         <td key={id}>
-          {G.cells[id] ? (
-            <div style={cellStyle}>{G.cells[id]}</div>
-          ) : (
-            <button style={cellStyle} onClick={() => onClick(id)} />
-          )}
+          {
+            <button style={cellStyle} onClick={() => onClick(id)}>
+              {
+                G.playerPositions.indexOf(id) !== -1 ? "Tile:" + G.cells[id] + " Player:" + G.playerPositions.indexOf(id) : "Tile:" + G.cells[id]
+              }
+            </button>
+          }
         </td>
       );
     }
     tbody.push(<tr key={i}>{cells}</tr>);
   }
+
+  tbody.push(<td key={10}>
+    {
+      <button style={cellStyle} onClick={() => onDiceClick(10) }>{ "Dice:" +  G.dieRoll }</button>
+    }
+  </td>);
 
   return (
     <div>
