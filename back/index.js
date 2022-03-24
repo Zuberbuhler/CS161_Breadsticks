@@ -48,8 +48,9 @@ io.on("connection", (socket) => {
 
   console.log(`User Connected: ${socket.id}`);
 
-  socket.on("start_game", () => {
-    console.log("the game is starting!!");
+  socket.on("host_started_game", ({room}) => {
+    socket.to(room).emit("start_game", {});
+    //console.log("the game is starting!!");
   });
 
   socket.on("join_room", ({username, room}) => {

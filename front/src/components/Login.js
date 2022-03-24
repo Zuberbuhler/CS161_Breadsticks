@@ -153,8 +153,11 @@ function Login() {
             <br></br>
             <br></br>
             <div>
-                Don't have an account?
+                <p>
+                Don't have an account?&nbsp;
                 <Link to="/Register">Register now</Link>
+                </p>
+                
             </div>
 
             <div>

@@ -107,8 +107,8 @@ export default function Register() {
         <br></br>
         <br></br>
         <br></br>
-            Already have an account?
-            <Link to="/Login">Login</Link>
+            <p>Already have an account?&nbsp;
+            <Link to="/Login">Login</Link></p>
         </div>
 
         </div>
