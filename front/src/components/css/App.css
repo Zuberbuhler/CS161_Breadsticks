@@ -51,7 +51,7 @@ body {
 }
 
 .chat-window {
-  width: 300px;
+  width: 400px;
   height: 420px;
 }
 
@@ -102,6 +102,7 @@ body {
   min-height: 40px;
   max-width: 120px;
   background-color: #43a047;
+  font-size: 20px;
   border-radius: 5px;
   color: white;
   display: flex;
@@ -163,7 +164,7 @@ body {
   flex: 85%;
   border: 0;
   padding: 0 0.7em;
-  font-size: 1em;
+  font-size: 15px;
   border-right: 1px dotted #607d8b;
 
   outline: none;
@@ -218,6 +219,7 @@ body {
   touch-action: manipulation;
   vertical-align: baseline;
   width: auto;
+  
 }
 
 .button-5:hover,

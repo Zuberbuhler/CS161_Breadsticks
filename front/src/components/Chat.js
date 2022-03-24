@@ -39,6 +39,18 @@ function Chat({socket, username, room, setShowChat}) {
     }
   };
 
+  const startGame = () => {
+    socket.emit("host_started_game", {room});
+    // navigates the host to the game
+    navigate("/Play"); 
+  }
+
+  useEffect(() => {
+    socket.on("start_game", () => {
+      navigate("/Play");
+    });
+  }, [socket]);
+
   /* Chat updates every time a message is recieved */
   useEffect(() => {
     socket.on("receive_message", (data) => {
@@ -57,7 +69,7 @@ function Chat({socket, username, room, setShowChat}) {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <p>{`Room '${room}' Chat`}</p>
+        <p>Room {room}</p>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
@@ -95,8 +107,10 @@ function Chat({socket, username, room, setShowChat}) {
         />
         <button onClick={sendMessage}>&#9658;</button>
       </div>
+      <br></br>
       <div>
-        <button onClick={leaveRoom}> Leave Room </button>
+        <button class="button-5" onClick={leaveRoom}> Leave Room </button>
+        <button class="button-5" onClick={startGame}> Start Game </button>
         <h3>Users: {clients}</h3>
       </div>
     </div>

@@ -39,12 +39,7 @@ export default function App() {
   return (
     <div>
       <h1>Breadsticks</h1>
-      <nav
-        style={{
-          borderBottom: "solid 1px",
-          paddingBottom: "1rem"
-        }}
-      >
+      <nav>
         <button class="button-5" onClick={login}>Login</button>
         <button class="button-5" onClick={register}>Register</button>
         <button class="button-5" onClick={gameClient}>Game Demo</button>

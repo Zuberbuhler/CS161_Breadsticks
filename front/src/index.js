@@ -11,6 +11,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Rooms from "./components/Rooms";
 import GameClient from "./components/GameClient";
+import Play from "./components/Play";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path="Register" element={<Register />} />
       <Route path="Rooms" element={<Rooms />} />
       <Route path="GameClient" element={<GameClient />} />
+      <Route path="Play" element={<Play />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
