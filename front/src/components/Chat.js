@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom"; 
-
+import { Client } from "boardgame.io/react";
+import { SocketIO } from 'boardgame.io/multiplayer';
+import BreadsticksGame from "./Game";
+import Board from "./Board";
 import { 
     useNavigate,
   } from "react-router-dom";
@@ -39,17 +42,57 @@ function Chat({socket, username, room, setShowChat}) {
     }
   };
 
-  const startGame = () => {
-    socket.emit("host_started_game", {room});
-    // navigates the host to the game
-    navigate("/Play"); 
-  }
+  // which player: 1,2,3, or 4, is ths current player?
+  const my_player_number = () => {
+    console.log(users);
+    let player_number = -1;
+    for (var i = 0; i < users.length; i++) { 
+      if (users[i] === username) {
+        player_number = i;
+        break;
+      }
+    }
+    return player_number;
+  };
 
+  /* signals to the server that the game is starting,
+    navigates the host to the room (the serve handles 
+    navigating the others) */
+  const startGame = () => {
+    // create a game object here
+
+    const BreadsticksClient = Client({
+      game: BreadsticksGame,
+      matchID: room,
+      board: Board,
+      multiplayer: SocketIO({ server: 'localhost:8000' }),
+      numPlayers: users.length,
+    }); 
+    
+    socket.emit("host_started_game", {room});
+    console.log("navigating host");
+
+    navigate("/Play", { state: { room: room, id: my_player_number()}});
+  };
+
+  const printUsers = () => {
+    console.log(users);
+    console.log("My current number is: ", my_player_number());
+  };
+
+  socket.once("start_game", ({room}) => {
+    console.log("navigating NOT host");
+    console.log(my_player_number());
+    navigate("/Play", { state: { room: room, id: my_player_number()} });
+  });
+
+  /* navigates players to the game if they AREN'T the host 
   useEffect(() => {
     socket.on("start_game", () => {
-      navigate("/Play");
+      console.log("navigating NOT host");
     });
-  }, [socket]);
+  }, [socket]); */
+  
 
   /* Chat updates every time a message is recieved */
   useEffect(() => {
@@ -62,7 +105,8 @@ function Chat({socket, username, room, setShowChat}) {
     socket.on("update_clients", ({y}) => {
       let comma_separated = y.join(", ");
       setClients(comma_separated);
-      console.log(comma_separated);
+      setUsers(y);
+      //console.log(comma_separated);
     });
   }, [socket]);
 
@@ -111,6 +155,7 @@ function Chat({socket, username, room, setShowChat}) {
       <div>
         <button class="button-5" onClick={leaveRoom}> Leave Room </button>
         <button class="button-5" onClick={startGame}> Start Game </button>
+        <button class="button-5" onClick={printUsers}> Console Log Users </button>
         <h3>Users: {clients}</h3>
       </div>
     </div>
