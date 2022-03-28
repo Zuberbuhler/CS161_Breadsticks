@@ -69,10 +69,10 @@ function Chat({socket, username, room, setShowChat}) {
       numPlayers: users.length,
     }); 
     
-    socket.emit("host_started_game", {room});
+    socket.emit("host_started_game", {room: room, size: users.length});
     console.log("navigating host");
 
-    navigate("/Play", { state: { room: room, id: my_player_number()}});
+    navigate("/Play", { state: { room: room, id: my_player_number(), size: users.length}});
   };
 
   const printUsers = () => {
@@ -80,20 +80,12 @@ function Chat({socket, username, room, setShowChat}) {
     console.log("My current number is: ", my_player_number());
   };
 
-  socket.once("start_game", ({room}) => {
+  socket.once("start_game", ({room, size}) => {
     console.log("navigating NOT host");
     console.log(my_player_number());
-    navigate("/Play", { state: { room: room, id: my_player_number()} });
+    navigate("/Play", { state: { room: room, id: my_player_number(), size: size} });
   });
-
-  /* navigates players to the game if they AREN'T the host 
-  useEffect(() => {
-    socket.on("start_game", () => {
-      console.log("navigating NOT host");
-    });
-  }, [socket]); */
   
-
   /* Chat updates every time a message is recieved */
   useEffect(() => {
     socket.on("receive_message", (data) => {
