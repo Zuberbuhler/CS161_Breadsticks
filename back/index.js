@@ -49,8 +49,8 @@ io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
   socket.on("host_started_game", ({room}) => {
-    socket.to(room).emit("start_game", {});
-    //console.log("the game is starting!!");
+    console.log("room: ", room);
+    socket.to(room).emit("start_game", {room: room});
   });
 
   socket.on("join_room", ({username, room}) => {
@@ -112,6 +112,7 @@ io.on("connection", (socket) => {
     console.log(dictionary);
     
     socket.to(room).emit("receive_message", messageData);
+    //io.removeAllListeners("host_started_game");
 
     socket.leave(room);
     let y = getClients(io, room);
