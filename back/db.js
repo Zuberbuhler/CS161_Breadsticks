@@ -7,17 +7,16 @@ var url = "mongodb://localhost:27017/";
 
 
 // Load the initial question and answers
+// This is the initial question list and is only run once by consuming the endpoint
 function load_and_insert_initial() {
 
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("question_database");
     var myobj = [
-      { question: 'John', answer: 'Highway 71'},
-      { question: 'Peter', answer: 'Lowstreet 4'},
-      { question: 'Amy', answer: 'Apple st 652'},
-      { question: 'Hannah', answer: 'Mountain 21'},
-      { question: 'Michael', answer: 'Valley 345'},
+        // Add more questions here
+      { question: 'What is the full form of A.I?', answer: ["Artificial Intelligence", "None"]},
+      { question: 'What is Life', answer:  ["42", "2", "1"]},
     ];
     dbo.collection("questions").insertMany(myobj, function(err, res) {
       if (err) throw err;
@@ -35,13 +34,6 @@ function get_all_and_randomize() {
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("question_database");
-    var myobj = [
-      { question: 'John', answer: 'Highway 71'},
-      { question: 'Peter', answer: 'Lowstreet 4'},
-      { question: 'Amy', answer: 'Apple st 652'},
-      { question: 'Hannah', answer: 'Mountain 21'},
-      { question: 'Michael', answer: 'Valley 345'},
-    ];
 
     // get random question and answer
     var randomDoc = dbo.getCollection("questions").aggregate([ {
@@ -58,5 +50,5 @@ MongoClient.connect(url, function(err, db) {
     return result;
 
   });
-
 }
+
