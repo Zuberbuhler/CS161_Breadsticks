@@ -8,22 +8,90 @@ function IsVictory(G, ctx) {
 // and what other tiles they border?
 // and have a way to navigate the tile structure?
 
-// Season enums can be grouped as static members of a class
-// https://www.sohamkamani.com/javascript/enums/
-class GameTile {
-  // Create new instances of the same class as static attributes
-  static Start = new GameTile("Start")
-  static PointsGain = new GameTile("PointsGain")
-  static PointsLose = new GameTile("PointsLose")
-  static PointsSuperGain = new GameTile("PointsSuperGain")
-  static PointsSuperLose = new GameTile("PointsSuperLose")
-  static QuestionBasic = new GameTile("QuestionBasic")
-  static QuestionHighOrLow = new GameTile("QuestionHighOrLow")
-  static QuestionVersus = new GameTile("QuestionVersus")
-
-  constructor(name) {
-    this.name = name
+//https://www.javascripttutorial.net/javascript-queue/
+class Queue {
+  constructor() {
+    this.elements = {};
+    this.head = 0;
+    this.tail = 0;
   }
+  enqueue(element) {
+    this.elements[this.tail] = element;
+    this.tail++;
+  }
+  dequeue() {
+    const item = this.elements[this.head];
+    delete this.elements[this.head];
+    this.head++;
+    return item;
+  }
+  peek() {
+    return this.elements[this.head];
+  }
+  get length() {
+    return this.tail - this.head;
+  }
+  get isEmpty() {
+    return this.length === 0;
+  }
+}
+
+// function to performs BFS
+//https://www.geeksforgeeks.org/implementation-graph-javascript/
+export function bfsMoveFinder(tileEdges, startingTileID, depthNum) {
+
+  // create a visited object
+  var visited = {};
+
+  // Create an object for queue
+  var q = new Queue();
+  // Create another object to divide BFS into distinct layers we can stop on
+  var childQ = new Queue();
+
+  // add the starting node to the queue
+  visited[startingTileID] = true;
+  q.enqueue(startingTileID);
+
+  var currentDepth = 0;
+  // loop until current queue is empty
+  //console.log(depthNum);
+  while (!q.isEmpty && currentDepth !== depthNum) {
+    do {
+      // get the element from the queue
+      var getQueueElement = q.dequeue();
+
+      // passing the current vertex to callback function
+      //console.log(getQueueElement);
+
+      // get the adjacent list for current vertex
+      var get_List = tileEdges[getQueueElement];
+
+      // loop through the list and add the element to the
+      // queue if it is not processed yet
+      for (var i in get_List) {
+        var neigh = get_List[i];
+
+        //if (!visited[neigh]) {
+        //  visited[neigh] = true;
+        childQ.enqueue(neigh);
+        //}
+      }
+    }
+    while (!q.isEmpty);
+    //now ChildQueue holds all of the next row, we can set q to hold that Row
+    while (!childQ.isEmpty) {
+      q.enqueue(childQ.dequeue());
+    }
+    currentDepth++;
+  }
+  //Now q holds all of the desired depth row, we can place the results into an array
+  //This allows avoiding json serializing objects
+  var depthArray = [];
+  while (!q.isEmpty) {
+    depthArray.push(q.dequeue());
+  }
+  console.log(depthArray.toString());
+  return depthArray;
 }
 
 export function numToType(num) {
@@ -48,34 +116,99 @@ export function numToType(num) {
   }
 }
 
-function clickCell(G, ctx, id) {
-  if (G.playerPositions.indexOf(id) === -1) {
-    G.playerPositions[ctx.currentPlayer] = id;
+export function TypeToNum(type) {
+  switch (type) {
+    case "Start":
+    default:
+      return 0;
+    case "PointsGain":
+      return 1;
+    case "PointsLose":
+      return 2;
+    case "PointsSuperGain":
+      return 3;
+    case "PointsSuperLose":
+      return 4;
+    case "QuestionBasic":
+      return 5;
+    case "QuestionHighOrLow":
+      return 6;
+    case "QuestionVersus":
+      return 7;
   }
 }
-function rollDie(G,ctx,id)
-{
-  if (id === 10) {
-    G.dieRoll = ctx.random.D6();
+
+function clickCell(G, ctx, id) {
+  G.playerPositions[ctx.currentPlayer] = id;
+  switch (G.playerPositions[ctx.currentPlayer]) {
+    case 5:
+    case 6:
+    case 7:
+      console.log("QUESTION TIME");
+      break;
+    case 1:
+      G.scores[ctx.currentPlayer] += 3;
+      break;
+    case 2:
+      G.scores[ctx.currentPlayer] -= 3;
+      break;
+    case 3:
+      G.scores[ctx.currentPlayer] += 15;
+      break;
+    case 4:
+      G.scores[ctx.currentPlayer] -= 15;
+      break;
+    case 0:
+      console.log("You came back to start!");
+      break;
+    default:
+      console.log("some other effect");
+      break;
   }
+  ctx.events.endStage();
+}
+
+function rollDie(G, ctx) {
+  //if (id === 26) {
+  G.dieRoll = ctx.random.D6();
+  //}
+  ctx.events.endStage();
 }
 
 const BreadsticksGame = {
   name: "Breadsticks-Game",
 
   setup: (ctx) => ({
-    cells: Array(10).fill(0),
-    playerPositions: Array(ctx.numPlayers).fill(-1),
+    //Game board is a directed graph, but
+    //Its stored as an array for the vertices
+    //and an array of arrays for edges, rather than a Graph object
+    //It has 7 * 7 = 49 for for 49 tiles, and 50 is used for the dice roll button
+    tiles: Array(49).fill().map((x) => x === 0 ? 0 : Math.round(Math.random() * 7 + 1)),
+    tileEdges: [[1, 2], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21], [22], [23], [24],
+    [25], [26], [27], [28], [29], [30], [31], [32], [33], [34], [35], [36], [37], [38], [39], [40], [41], [42], [43], [44], [45], [46], [47], [48], [0]], // simple linear graph
+    playerPositions: Array(ctx.numPlayers).fill(0),
     starIndex: -1,
     scores: Array(ctx.numPlayers).fill(0),
     dieRoll: 0,
     gameTurns: 10,
   }),
 
-  moves: { rollDie, clickCell},
-
   turn: {
-    moveLimit : 2
+    activePlayers: {
+      currentPlayer: "rollDice"
+    },
+    stages: {
+      rollDice: {
+        start: true,
+        moves: { rollDie },
+        next: "movePlayer"
+      },
+      movePlayer: {
+        moves: { clickCell },
+        next: "rollDice"
+      },
+    },
+    moveLimit: 2
   },
 
   // The minimum and maximum number of players supported
@@ -93,7 +226,7 @@ const BreadsticksGame = {
     enumerate: G => {
       let moves = [];
       for (let i = 0; i < 9; i++) {
-        if (G.cells[i].playerOn === null) {
+        if (G.tiles[i].playerOn === null) {
           moves.push({ move: "clickCell", args: [i] });
         }
       }
