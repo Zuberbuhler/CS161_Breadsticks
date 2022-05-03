@@ -48,9 +48,9 @@ io.on("connection", (socket) => {
 
   console.log(`User Connected: ${socket.id}`);
 
-  socket.on("host_started_game", ({room}) => {
+  socket.on("host_started_game", ({room, size}) => {
     console.log("room: ", room);
-    socket.to(room).emit("start_game", {room: room});
+    socket.to(room).emit("start_game", {room: room, size: size});
   });
 
   socket.on("join_room", ({username, room}) => {
