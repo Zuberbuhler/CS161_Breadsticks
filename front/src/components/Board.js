@@ -9,15 +9,18 @@ function Board({ ctx, G, moves }) {
   const onClick = (id) => {
     if (bfsMoveFinder(G.tileEdges, G.playerPositions[ctx.currentPlayer], G.dieRoll).includes(id)) {
       moves.clickCell(id);
-      document.getElementById(id).style.backgroundSize = "0 0";
+      window.location.reload();
     }
     else console.log("Cant go there " + id);
   };
+
   const onDiceClick = () => {
     moves.rollDie();
+    window.location.reload();
   }
-
+  
   let winner = '';
+  /** 
   if (ctx.gameover) {
     winner =
       ctx.gameover.winner !== undefined ? (
@@ -26,6 +29,7 @@ function Board({ ctx, G, moves }) {
         <div id="winner">Draw!</div>
       );
   }
+  */
 
   const tileStyle = {
     border: '0px solid #555',
@@ -131,18 +135,15 @@ function Board({ ctx, G, moves }) {
       document.getElementById(G.movements[ind]).style.backgroundSize = "0 0";
       console.log("found movement: " + G.movements[ind]);
     }
-    else if(document.getElementById(ind) !== null){
-      //document.getElementById(ind).style.backgroundSize = "1 1";
-    }
   }
+  
+
   let scoreAndOptions = [];
   scoreAndOptions.push(<tile>
     {
       <button style={diceButton} onClick={() => onDiceClick()}>{"Dice:" + G.dieRoll}</button>
     }
   </tile>);
-
-
 
   return (
     <div id="parent">

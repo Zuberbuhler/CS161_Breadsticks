@@ -1,5 +1,6 @@
 function IsVictory(G, ctx) {
-  return G.gameTurns === ctx.turn * ctx.numPlayers;
+  return false;
+  //return G.gameTurns === ctx.turn * ctx.numPlayers;
 }
 
 //Represents a single tile of the board game

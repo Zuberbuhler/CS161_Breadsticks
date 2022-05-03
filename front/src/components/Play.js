@@ -22,7 +22,7 @@ const Play = () => {
     <div>
       <p>room number: {room} </p>
       <p>MY PLAYER NUMBER IS {id.toString()}</p>
-      <p>number of playerS is: {size}</p>
+      <p>number of players is: {size}</p>
       <BreadsticksClient matchID={room} playerID={id.toString()} />
     </div>
   )
