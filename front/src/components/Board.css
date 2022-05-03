@@ -40,6 +40,7 @@
     margin: 0 auto;
     background: url("../graphics/GameTiles1.png");
     cursor: pointer;
+    background-repeat: no-repeat;
   }
 
   highlowtile {
@@ -47,6 +48,7 @@
     margin: 0 auto;
     background: url("../graphics/GameTiles2.png");
     cursor: pointer;
+    background-repeat: no-repeat;
   }
 
   versustile {
@@ -55,6 +57,7 @@
     background: url("../graphics/GameTiles3.png");
     color: "blue";
     cursor: pointer;
+    background-repeat: no-repeat;
   }
 
   PointGainTile {
@@ -62,13 +65,15 @@
     margin: 0 auto;
     background: url("../graphics/GameTiles4.png");
     cursor: pointer;
+    background-repeat: no-repeat;
   }
 
   supergaintile {
     display: inline-block;
-    margin: 0 auto;
+    margin: 0, auto;
     background: url("../graphics/GameTiles5.png");
     cursor: pointer;
+    background-repeat: no-repeat;
   }
 
   PointLossTile {
@@ -76,6 +81,8 @@
     margin: 0 auto;
     background: url("../graphics/GameTiles6.png");
     cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   SuperLossTile {
@@ -83,6 +90,8 @@
     margin: 0 auto;
     background: url("../graphics/GameTiles7.png");
     cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   QuestionImageTile {
@@ -90,4 +99,6 @@
     margin: 0 auto;
     background: url("../graphics/GameTiles8.png");
     cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
   }

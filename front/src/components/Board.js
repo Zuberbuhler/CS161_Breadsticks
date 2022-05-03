@@ -132,12 +132,21 @@ function Board({ ctx, G, moves }) {
     if(document.getElementById(ind) !== null)
     {
       console.log(document.getElementById(G.movements[ind]));
-      document.getElementById(G.movements[ind]).style.backgroundSize = "0 0";
+      document.getElementById(G.movements[ind]).style.backgroundSize = "30px 30px";
       console.log("found movement: " + G.movements[ind]);
     }
   }
-  
 
+  for(var ind = 0; ind < G.playerPositions.length; ind++)
+  {
+    if(document.getElementById(ind) !== null)
+    {
+      console.log(document.getElementById(G.playerPositions[ind]));
+      document.getElementById(G.playerPositions[ind]).style.backgroundSize = "0px 0px";
+    }
+  }
+
+  
   let scoreAndOptions = [];
   scoreAndOptions.push(<tile>
     {
