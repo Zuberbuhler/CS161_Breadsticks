@@ -20,6 +20,8 @@
     border-collapse: collapse;
     font-family: monospace;
     flex: 1;
+    display : grid;
+    gap: 0px 0px;
     /* Grow to rest of container */
     background: radial-gradient(lightgreen, green);
     /* Just so it's visible */
@@ -33,23 +35,59 @@
     text-align: center;
   }
   
-  tile {
-    text-align: center;
-    font-weight: bold;
-    font-size: 25px;
-    color: #555;
-    height:50;
-    width: 50;
-    line-height: 50px;
-    border: 3px solid #aaa;
-    background: radial-gradient(#31572c, #132a13);
-  }
-  
-  tile.active {
+  basictile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles1.png");
     cursor: pointer;
-    background: #eeffe9;
   }
-  
-  tile.active:hover {
-    background: #eeffff;
+
+  highlowtile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles2.png");
+    cursor: pointer;
+  }
+
+  versustile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles3.png");
+    color: "blue";
+    cursor: pointer;
+  }
+
+  PointGainTile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles4.png");
+    cursor: pointer;
+  }
+
+  supergaintile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles5.png");
+    cursor: pointer;
+  }
+
+  PointLossTile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles6.png");
+    cursor: pointer;
+  }
+
+  SuperLossTile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles7.png");
+    cursor: pointer;
+  }
+
+  QuestionImageTile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles8.png");
+    cursor: pointer;
   }
