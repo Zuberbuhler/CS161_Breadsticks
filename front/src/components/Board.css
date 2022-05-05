@@ -13,6 +13,8 @@
   #scores {
     width: 200px;
     background: lightblue;
+    text-align: center;
+
     /* Just so it's visible */
   }
 
@@ -23,11 +25,10 @@
     display : grid;
     gap: 0px 0px;
     /* Grow to rest of container */
-    background: radial-gradient(lightgreen, green);
+    background: radial-gradient(rgb(254, 255, 254), rgb(255, 255, 255));
     /* Just so it's visible */
     
   }
-  
   
   #winner {
     margin-top: 25px;
@@ -59,15 +60,6 @@
     cursor: pointer;
     background-repeat: no-repeat;
   }
-
-  PointGainTile {
-    display: inline-block;
-    margin: 0 auto;
-    background: url("../graphics/GameTiles4.png");
-    cursor: pointer;
-    background-repeat: no-repeat;
-  }
-
   supergaintile {
     display: inline-block;
     margin: 0, auto;
@@ -101,4 +93,12 @@
     cursor: pointer;
     background-repeat: no-repeat;
     background-position: center;
+  }
+
+  PointGainTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles4.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
   }
