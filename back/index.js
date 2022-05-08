@@ -2,11 +2,59 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const cors = require("cors");
+const path = require('path');
 const { Server } = require("socket.io");
 app.use(cors());
 
-const server = http.createServer(app);
+// Database
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
 
+MongoClient.connect(url, { useUnifiedTopology: true })
+  .then(client => {
+    console.log('Connected to Database')
+    const db = client.db('question_database')
+    const questionCollection = db.collection('questions')
+
+    //------------------------------------------
+    app.get("/initialize", (req, response) => {
+      var myobj = [
+        // Add more questions here
+      { question: 'What is the full form of A.I?', answer: ["Artificial Intelligence", "None"], correct: "Artificial Intelligence"},
+      { question: 'What is Life', answer:  ["42", "2", "1"], correct: "42"},
+    ];
+    questionCollection.insertMany(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("Number of documents inserted: " + res.insertedCount);
+      response.json("Number of questions inserted: " + res.insertedCount);
+    });
+    })
+    // ---------------------------------------------
+
+    app.get("/random", (req, response) => {
+      db.collection("questions").aggregate(
+        [ 
+            { "$sample": { "size": 1 } } 
+        ]
+    ).toArray()
+    .then(results => { 
+      response.json(results)
+    })
+    .catch(error => console.error(error))
+    })
+  })
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname,'views/index.html'))
+})
+
+// Database
+
+const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",

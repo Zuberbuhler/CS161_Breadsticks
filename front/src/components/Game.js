@@ -1,4 +1,5 @@
 import { Queue, bfsMoveFinder } from "./Queue";
+const axios = require('axios');
 
 function IsVictory(G, ctx) {
   return false;
@@ -53,15 +54,41 @@ export function TypeToNum(type) {
   }
 }
 
+// Return the question here
+let URL = "http://localhost:3001/random"
+// Populate question into data
+const question_data = {};  
+function populateData(data) {
+  question_data['question'] = data[0].question
+  question_data['answer'] = data[0].answer
+  question_data['correct'] = data[0].correct
+}
+function API_call(populateData) {
+  axios.get(URL)
+ .then(function(response){
+         populateData(response.data);
+  })
+  .catch(function(error){
+         console.log(error);
+   });
+}   
+// Populate question into data [END]
+
 function clickCell(G, ctx, id) {
   // id is the cell clicked
   G.playerPositions[ctx.currentPlayer] = id; // moves player to cell clicked
   switch (G.tiles[G.playerPositions[ctx.currentPlayer]]) {
+    // 5 and 6 questions
     case 5:
     case 6:
+    // Access data in question_data
+      API_call(populateData);
+      console.log(question_data.question);
+    // access question_data
+      break
     case 7:
     case 8:
-      console.log("QUESTION TIME");
+      //console.log("QUESTION TIME");
       break;
     case 1:
       G.scores[ctx.currentPlayer] += 3;
