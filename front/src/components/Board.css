@@ -11,7 +11,7 @@
   }
 
   #scores {
-    width: 200px;
+    width: 250px;
     background: lightblue;
     text-align: center;
 
@@ -56,10 +56,19 @@
     display: inline-block;
     margin: 0 auto;
     background: url("../graphics/GameTiles3.png");
-    color: "blue";
     cursor: pointer;
     background-repeat: no-repeat;
   }
+
+  PointGainTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles4.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
   supergaintile {
     display: inline-block;
     margin: 0, auto;
@@ -95,10 +104,42 @@
     background-position: center;
   }
 
-  PointGainTile {
+  ArrowRightTile {
     display:inline-block;
     margin: 0 auto;
-    background: url("../graphics/GameTiles4.png");
-    cursor: pointer;
+    background: url("../graphics/Arrows1.png");
     background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  ArrowUpTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/Arrows2.png");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  ArrowLeftTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/Arrows3.png");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  ArrowDownTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/Arrows4.png");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  EmptyTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: none;
+    background-repeat: no-repeat;
+    background-position: center;
   }

@@ -86,6 +86,6 @@ export class Queue {
     while (!q.isEmpty) {
       depthArray.push(q.dequeue());
     }
-    console.log("bfs " + depthArray.toString());
+    //console.log("bfs " + depthArray.toString());
     return depthArray;
   }
