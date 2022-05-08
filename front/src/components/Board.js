@@ -24,21 +24,17 @@ function Board({ ctx, G, moves }) {
   const onAnswerClick = (id) => {
     console.log("Player Clicked Answer " + id);
     //G.playerAnswers[c] = id;
-    moves.answer(id);
+    document.getElementById('ans1').style.background = 'red'; 
+    document.getElementById('ans2').style.background = 'red'; 
+    document.getElementById('ans3').style.background = 'red'; 
+    document.getElementById('correct').style.background = 'green'; 
+    setTimeout(() => {  moves.answer(id); }, 1500);
+    
   };
 
-  const returnToGame = (yay) => {
-    console.log(yay);
-    if (timeoutObj !== null) {
-      clearTimeout(timeoutObj);
-      console.log("wahoo");
-    }
+  const returnToGame = () => {
     console.log("Go back");
     moves.answer(5);
-    G.isInQuestion = false;
-    if (G.isInQuestion) {
-      
-    }
   };
 
   // Handles game over
@@ -160,10 +156,10 @@ function Board({ ctx, G, moves }) {
         <TileButton id={id} highlight={highlight} />
       </versustile>;
       case 6:
-      default: return <basictile key={id} id={id} class="basic">
-        <Icons players={players} />
-        <TileButton id={id} highlight={highlight} />
-      </basictile>;
+      default: return <versustile key={id} id={id} class="versus">
+      <Icons players={players} />
+      <TileButton id={id} highlight={highlight} />
+      </versustile>;
     }
   }
 
@@ -281,6 +277,16 @@ function Board({ ctx, G, moves }) {
     background: '#eeffe9',
   }
 
+  const correctAnswerButton = {
+    border: '1px solid #555',
+    width: '300px',
+    height: '100px',
+    lineHeight: '100px',
+    textAlign: 'center',
+    cursor: 'pointer',
+    background: '#eeffe9',
+  }
+
   let bigIcons = [<img src="PlayerIcons1.png" style={CurrentlyUpPlayerStyle} />,
   <img src="PlayerIcons2.png" style={CurrentlyUpPlayerStyle} />,
   <img src="PlayerIcons3.png" style={CurrentlyUpPlayerStyle} />,
@@ -290,26 +296,6 @@ function Board({ ctx, G, moves }) {
   <img src="PlayerIcons2.png" style={PlayerScoreStyle} />,
   <img src="PlayerIcons3.png" style={PlayerScoreStyle} />,
   <img src="PlayerIcons4.png" style={PlayerScoreStyle} />];
-
-
-  //Progress bar as timer of a question
-  // https://www.codegrepper.com/code-examples/javascript/30+seconds+countdown+js
-  
-  /*
-  var timeLeft = 5;
-  var downloadTimer = setInterval(function(){
-    if(document.getElementById("progressBar") !== null)
-    {
-      document.getElementById("progressBar").value = 5 - timeLeft;
-      timeLeft -= 1;
-      if(timeLeft < 0){
-        clearInterval(downloadTimer);
-        timeLeft = 5;
-        console.log("timer done");
-      }
-    }
-  }, 1000);
-  */
 
   if (!G.isInQuestion) {
     return (
@@ -357,13 +343,66 @@ function Board({ ctx, G, moves }) {
         <div id="parentQuestion">
           <div id="question">
             <p>{G.question}</p>
-            <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-            <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-            <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
-            <button name={"Answer 4"} style={answerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+            <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+            <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+            <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+            <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
           </div>
         </div>
-        );
+      );
+      const rand = Math.floor(Math.random() * 4); // 0 to 3
+      /*
+      switch (rand) {
+        case 0:
+          return (
+            <div id="parentQuestion">
+              <div id="question">
+                <p>{G.question}</p>
+                <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                <button name={"Answer 4"} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+              </div>
+            </div>
+          );
+        case 1:
+          return (
+            <div id="parentQuestion">
+              <div id="question">
+                <p>{G.question}</p>
+                <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button name={"Answer 4"} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+              </div>
+            </div>
+          );
+        case 2:
+          return (
+            <div id="parentQuestion">
+              <div id="question">
+                <p>{G.question}</p>
+                <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button name={"Answer 4"} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+              </div>
+            </div>
+          );
+        case 3:
+          return (
+            <div id="parentQuestion">
+              <div id="question">
+                <p>{G.question}</p>
+                <button name={"Answer 4"} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+              </div>
+            </div>
+          );
+      }
+      */
     }
   }
 }
