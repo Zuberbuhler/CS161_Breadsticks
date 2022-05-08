@@ -311,19 +311,8 @@ function Board({ ctx, G, moves }) {
   }, 1000);
   */
 
-  if (true) {
+  if (!G.isInQuestion) {
     return (
-      <div>
-        <div id="parentQuestion">
-        <div id="question">
-          <p>{"What the dog doing?"}<progress value={0} max="5" id="progressBar"></progress></p>
-          <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{"FIRST ANSWER"}</button>
-          <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{"SECOND ANSWER"}</button>
-          <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{"THIRD ANSWER"}</button>
-          <button name={"Answer 4"} style={answerButton} onClick={() => onAnswerClick(4)}>{"FOURTH ANSWER"}</button>
-          <button name={"Dont Use"} style={answerButton} onClick={() => returnToGame()}>{"yay"}</button>
-        </div>
-      </div>
       <div id="parent">
         <table id="board">
           <tbody>{tbody}</tbody>
@@ -354,26 +343,28 @@ function Board({ ctx, G, moves }) {
           <div>{scoreAndOptions}</div>
         </div>
       </div>
-      </div>
     );
   }
-  /*
-  else if (G.isInQuestion) {
+  else {
     //timeoutObj = setTimeout(returnToGame, 3000, 'yay');
-
-    return (
-      <div id="parentQuestion">
-        <div id="question">
-          <p>{"What the dog doing?"}<progress value={0} max="5" id="progressBar"></progress></p>
-          <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{"FIRST ANSWER"}</button>
-          <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{"SECOND ANSWER"}</button>
-          <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{"THIRD ANSWER"}</button>
-          <button name={"Answer 4"} style={answerButton} onClick={() => onAnswerClick(4)}>{"FOURTH ANSWER"}</button>
-          <button name={"Dont Use"} style={answerButton} onClick={() => returnToGame()}>{"yay"}</button>
+    if (G.question === "") {
+      return (<div>
+      <p>You landed on a versus tile! Answer the question</p>
+      <button name={"Dont Use"} style={answerButton} onClick={() => returnToGame()}>{"yay"}</button></div>);
+    }
+    else {
+      return (
+        <div id="parentQuestion">
+          <div id="question">
+            <p>{G.question}</p>
+            <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+            <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+            <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+            <button name={"Answer 4"} style={answerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+          </div>
         </div>
-      </div>
-    );
+        );
+    }
   }
-  */
 }
 export default Board;

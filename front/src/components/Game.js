@@ -10,6 +10,7 @@ function IsVictory(G, ctx) {
 let URL = "http://localhost:3001/random"
 // Populate question into data
 const question_data = {};  
+
 function populateData(data) {
   question_data['question'] = data[0].question
   question_data['option1'] = data[0].option1
@@ -19,6 +20,7 @@ function populateData(data) {
   question_data['support'] = data[0].support
 
 }
+
 function API_call(populateData) {
   axios.get(URL)
  .then(function(response){
@@ -65,9 +67,18 @@ function clickCell(G, ctx, id) {
 
       // get question
       API_call(populateData)
-      console.log(question_data.question)
+      //console.log(question_data.question)
       G.questionType = "versus";
       
+      G.question = question_data['question'];
+      G.answer1 = question_data['option1'];
+      G.answer2 = question_data['option2'];
+      G.answer3 = question_data['option3'];
+      G.answer4 = question_data['option4'];
+      G.support = question_data['support'];
+
+      //G.questionData = question_data;
+
       G.isInQuestion = true;
       ctx.events.setActivePlayers({ all: 'answerQuestion',  minMoves: 1, maxMoves: 1});
       
@@ -75,23 +86,10 @@ function clickCell(G, ctx, id) {
     case 6: // highlow question
       console.log("BASIC QUESTION TIME");
       API_call(populateData)
-      console.log(question_data.question)
+      //console.log(question_data.question)
       G.questionType = "basic";
       G.isInQuestion = true;
-      ctx.events.setActivePlayers({ all: 'answerQuestion', maxMoves: 1, revert: true });
-      
-      /*var timeLeft = G.questionTime;
-      var downloadTimer = setTimeout(function () {
-        console.log("we got a timer" + timeLeft);
-        timeLeft -= 1;
-        if (timeLeft < 0) {
-          clearInterval(downloadTimer);
-          timeLeft = G.questionTime;
-          console.log("timer done");
-          ctx.events.endTurn();
-          G.isInQuestion = false;
-        }
-      }, 1000);*/
+      ctx.events.setActivePlayers({ all: 'answerQuestion',  minMoves: 1, maxMoves: 1});
       break;
     case 1: // point gain
       G.scores[ctx.currentPlayer] += 3;
@@ -154,7 +152,11 @@ function answer(G, ctx, ans)
   }
   if (numPlayers === 1) {
     console.log("ok everyone's done");
+    G.isInQuestion = false;
     ctx.events.endTurn();
+  }
+  else {
+    G.isInQuestion = true;
   }
 }
 
@@ -203,6 +205,12 @@ export const BreadsticksGame = {
     questionType: "basic", // other types include "versus", " "highlow", "image"
     questionScores: Array(ctx.numPlayers).fill(0), // the score each player got from the last question
     playerAnswers: Array(ctx.numPlayers).fill(0), // the answer number of each player
+    question: "",
+    answer1: "",
+    answer2: "",
+    answer3: "",
+    answer4: "",
+    support: "",
     questionTime: 20,
     questionTimeLeft: 20,
 

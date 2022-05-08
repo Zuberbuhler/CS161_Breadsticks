@@ -17,6 +17,8 @@ MongoClient.connect(url, { useUnifiedTopology: true })
     const db = client.db('question_database')
     const questionCollection = db.collection('questions')
 
+    console.log("server connected");
+
     //------------------------------------------
     app.get("/initialize", (req, response) => {
     questionCollection.insertMany(jsonData, function(err, res) {
