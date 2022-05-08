@@ -60,8 +60,12 @@ let URL = "http://localhost:3001/random"
 const question_data = {};  
 function populateData(data) {
   question_data['question'] = data[0].question
-  question_data['answer'] = data[0].answer
-  question_data['correct'] = data[0].correct
+  question_data['option1'] = data[0].option1
+  question_data['option2'] = data[0].option2
+  question_data['option3'] = data[0].option3
+  question_data['option4'] = data[0].option4
+  question_data['support'] = data[0].support
+
 }
 function API_call(populateData) {
   axios.get(URL)
