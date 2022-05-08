@@ -18,8 +18,9 @@ function Board({ ctx, G, moves }) {
   // handles when a player clicks the die to roll
   const onDiceClick = () => {
     moves.rollDie();
-  }
-  
+    // Call before localhost:3001/initialize
+    // localhost:3001/random
+}
   // Handles game over
   let winner = '';
   if (ctx.gameover) {
@@ -98,10 +99,14 @@ function Board({ ctx, G, moves }) {
 
   // returns the HTML for a Tile
   function Tile(props) {
+
+    const showQuestion = () => {alert(this.te)}
+
     let type = props.type;
     let players = props.players; // one hot encoding[1]
     let id = props.id; // 1 through 168
     let highlight = props.highlight;
+    let text = props.text;
 
     switch (type) {
       case 0: return <basictile key={id} id={id} class = "start">
@@ -126,7 +131,7 @@ function Board({ ctx, G, moves }) {
         <TileButton id={id} highlight={highlight}/>
         </superlosstile>;
       case 5: return <versustile key={id} id={id} class = "versus">
-        <Icons players={players}/>   
+        <Icons players={players}/>
         <TileButton id={id} highlight={highlight}/>
         </versustile>;
       default: return <basictile key={id} id={id} class = "basic">
@@ -168,6 +173,7 @@ function Board({ ctx, G, moves }) {
         highlight = true;
       }
       let onehot = OneHotEncodingCurrentPlayersOnTile(id);
+     
       cells.push(<Tile type={G.tiles[id]} id={id} players={onehot} highlight={highlight}/>);
     }
     tbody.push(<tr key={i}>{cells}</tr>);
