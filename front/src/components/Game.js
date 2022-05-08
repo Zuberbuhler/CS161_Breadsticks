@@ -35,10 +35,12 @@ function clickCell(G, ctx, id) {
   switch (G.tiles[G.playerPositions[ctx.currentPlayer]]) {
     case 5: // versus question
       console.log("VERSUS QUESTION TIME");
-      G.questionType = "versus";
+      G.questionType = "basic";
       G.isInQuestion = true;
-      ctx.events.setActivePlayers({ all: 'answerQuestion', maxMoves: 1, revert: true });
-      /*var timeLeft = G.questionTime;
+      ctx.events.setActivePlayers({ all: 'answerQuestion',  minMoves: 1, maxMoves: 1});
+
+      // setTimeout(myFunc, 1500, 'funky');
+     /*var timeLeft = G.questionTime;
       var downloadTimer = setTimeout(function () {
         console.log("we got a timer" + timeLeft);
         timeLeft -= 1;
@@ -105,7 +107,6 @@ function clickCell(G, ctx, id) {
   //ctx.events.endStage();
 }
 
-
 function rollDie(G, ctx) {
   //if (id === 26) {
   G.dieRoll = ctx.random.D6();
@@ -118,10 +119,22 @@ function answer(G, ctx, ans)
 {
   //Record Answer
   G.playerAnswers[0] = ans;
-
   //Transition out of question
   G.isInQuestion = false;
-  ctx.events.endTurn();
+  console.log(ctx.activePlayers);
+  console.log(typeof ctx.activePlayers);
+  console.log(ctx.activePlayers.length);
+
+  // count how many players remain
+  let numPlayers = 0;
+  for (const x in ctx.activePlayers) {
+    console.log(x);
+    numPlayers += 1;
+  }
+  if (numPlayers === 1) {
+    console.log("ok everyone's done");
+    ctx.events.endTurn();
+  }
 }
 
 export const BreadsticksGame = {
@@ -133,7 +146,8 @@ export const BreadsticksGame = {
     //and an array of arrays for edges, rather than a Graph object
     //It has 7 * 7 = 49 for for 49 tiles, and 50 is used for the dice roll button
     
-    tiles: Array(49).fill(0).map(() => Math.round(Math.random() * 5 + 1)),
+    //tiles: Array(49).fill(0).map(() => Math.round(Math.random() * 5 + 1)),
+    tiles: Array(49).fill(0).map(() => 5),
     tileEdges: [[1], [2], [3], [4,10], [5], [6], [13],
                 [0], [15], [8], [9,11,17], [4,12], [13], [20],
                 [7,21], [14], [15], [16], [17], [18], [19],
