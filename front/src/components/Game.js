@@ -1,9 +1,34 @@
 import { bfsMoveFinder } from "./Queue";
+const axios = require("axios");
 
 function IsVictory(G, ctx) {
   return false;
   //return G.gameTurns * ctx.numPlayers === ctx.turn;
 }
+
+// Return the question here
+let URL = "http://localhost:3001/random"
+// Populate question into data
+const question_data = {};  
+function populateData(data) {
+  question_data['question'] = data[0].question
+  question_data['option1'] = data[0].option1
+  question_data['option2'] = data[0].option2
+  question_data['option3'] = data[0].option3
+  question_data['option4'] = data[0].option4
+  question_data['support'] = data[0].support
+
+}
+function API_call(populateData) {
+  axios.get(URL)
+ .then(function(response){
+         populateData(response.data);
+  })
+  .catch(function(error){
+         console.log(error);
+   });
+}   
+// Populate question into data [END]
 
 export function numToType(num) {
   switch (num) {
@@ -35,26 +60,22 @@ function clickCell(G, ctx, id) {
   switch (G.tiles[G.playerPositions[ctx.currentPlayer]]) {
     case 5: // versus question
       console.log("VERSUS QUESTION TIME");
+
       G.questionType = "basic";
+
+      // get question
+      API_call(populateData)
+      console.log(question_data.question)
+      G.questionType = "versus";
+      
       G.isInQuestion = true;
       ctx.events.setActivePlayers({ all: 'answerQuestion',  minMoves: 1, maxMoves: 1});
-
-      // setTimeout(myFunc, 1500, 'funky');
-     /*var timeLeft = G.questionTime;
-      var downloadTimer = setTimeout(function () {
-        console.log("we got a timer" + timeLeft);
-        timeLeft -= 1;
-        if (timeLeft < 0) {
-          clearInterval(downloadTimer);
-          timeLeft = G.questionTime;
-          console.log("timer done");
-          ctx.events.endTurn();
-          G.isInQuestion = false;
-        }
-      }, 1000);*/
+      
       break;
     case 6: // highlow question
       console.log("BASIC QUESTION TIME");
+      API_call(populateData)
+      console.log(question_data.question)
       G.questionType = "basic";
       G.isInQuestion = true;
       ctx.events.setActivePlayers({ all: 'answerQuestion', maxMoves: 1, revert: true });

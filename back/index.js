@@ -3,6 +3,7 @@ const app = express();
 const http = require("http");
 const cors = require("cors");
 const path = require('path');
+const jsonData = require("./data/data.json")
 const { Server } = require("socket.io");
 app.use(cors());
 
@@ -18,12 +19,7 @@ MongoClient.connect(url, { useUnifiedTopology: true })
 
     //------------------------------------------
     app.get("/initialize", (req, response) => {
-      var myobj = [
-        // Add more questions here
-      { question: 'What is the full form of A.I?', answer: ["Artificial Intelligence", "None"], correct: "Artificial Intelligence"},
-      { question: 'What is Life', answer:  ["42", "2", "1"], correct: "42"},
-    ];
-    questionCollection.insertMany(myobj, function(err, res) {
+    questionCollection.insertMany(jsonData, function(err, res) {
       if (err) throw err;
       console.log("Number of documents inserted: " + res.insertedCount);
       response.json("Number of questions inserted: " + res.insertedCount);
