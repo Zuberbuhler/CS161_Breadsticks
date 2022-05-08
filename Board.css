@@ -1,0 +1,145 @@
+/*
+ * Copyright 2017 The boardgame.io Authors
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+
+ #parent {
+  display: flex;
+  }
+
+  #scores {
+    width: 250px;
+    background: lightblue;
+    text-align: center;
+
+    /* Just so it's visible */
+  }
+
+  #board {
+    border-collapse: collapse;
+    font-family: monospace;
+    flex: 1;
+    display : grid;
+    gap: 0px 0px;
+    /* Grow to rest of container */
+    background: radial-gradient(rgb(254, 255, 254), rgb(255, 255, 255));
+    /* Just so it's visible */
+    
+  }
+  
+  #winner {
+    margin-top: 25px;
+    width: 168px;
+    text-align: center;
+  }
+  
+  basictile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles1.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
+  }
+
+  highlowtile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles2.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
+  }
+
+  versustile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles3.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
+  }
+
+  PointGainTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles4.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  supergaintile {
+    display: inline-block;
+    margin: 0, auto;
+    background: url("../graphics/GameTiles5.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
+  }
+
+  PointLossTile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles6.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  SuperLossTile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles7.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  QuestionImageTile {
+    display: inline-block;
+    margin: 0 auto;
+    background: url("../graphics/GameTiles8.png");
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  ArrowRightTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/Arrows1.png");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  ArrowUpTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/Arrows2.png");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  ArrowLeftTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/Arrows3.png");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  ArrowDownTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: url("../graphics/Arrows4.png");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  EmptyTile {
+    display:inline-block;
+    margin: 0 auto;
+    background: none;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
