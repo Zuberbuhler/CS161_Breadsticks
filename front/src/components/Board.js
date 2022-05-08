@@ -4,6 +4,8 @@ import './Board.css';
 import BreadsticksGame from "./Game";
 import {bfsMoveFinder} from  "./Queue"
 
+var timeoutObj = null;
+
 function Board({ ctx, G, moves }) {
 
   // handles when a player clicks a tile to move to
@@ -22,10 +24,21 @@ function Board({ ctx, G, moves }) {
   const onAnswerClick = (id) => {
     console.log("Player Clicked Answer " + id);
     //G.playerAnswers[c] = id;
-    if (id === 5) {
-      moves.answer(id);
-    }
+    moves.answer(id);
+  };
 
+  const returnToGame = (yay) => {
+    console.log(yay);
+    if (timeoutObj !== null) {
+      clearTimeout(timeoutObj);
+      console.log("wahoo");
+    }
+    console.log("Go back");
+    moves.answer(5);
+    G.isInQuestion = false;
+    if (G.isInQuestion) {
+      
+    }
   };
 
   // Handles game over
@@ -204,6 +217,8 @@ function Board({ ctx, G, moves }) {
       }
     }
     tbody.push(<tr key={i}>{cells}</tr>);
+
+    // places arrows on the board
     let cells2 = [];
     i++;
     if (i < squareSize * 2 - 1) {
@@ -279,26 +294,36 @@ function Board({ ctx, G, moves }) {
 
   //Progress bar as timer of a question
   // https://www.codegrepper.com/code-examples/javascript/30+seconds+countdown+js
+  
   /*
-  var timeLeft = 20;
+  var timeLeft = 5;
   var downloadTimer = setInterval(function(){
     if(document.getElementById("progressBar") !== null)
     {
-      document.getElementById("progressBar").value = 20 - timeLeft;
+      document.getElementById("progressBar").value = 5 - timeLeft;
       timeLeft -= 1;
       if(timeLeft < 0){
-        //clearInterval(downloadTimer);
-        timeLeft = 20;
+        clearInterval(downloadTimer);
+        timeLeft = 5;
         console.log("timer done");
-        G.isInQuestion = false;
       }
     }
   }, 1000);
   */
 
-  
-  if (!G.isInQuestion) {
+  if (true) {
     return (
+      <div>
+        <div id="parentQuestion">
+        <div id="question">
+          <p>{"What the dog doing?"}<progress value={0} max="5" id="progressBar"></progress></p>
+          <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{"FIRST ANSWER"}</button>
+          <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{"SECOND ANSWER"}</button>
+          <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{"THIRD ANSWER"}</button>
+          <button name={"Answer 4"} style={answerButton} onClick={() => onAnswerClick(4)}>{"FOURTH ANSWER"}</button>
+          <button name={"Dont Use"} style={answerButton} onClick={() => returnToGame()}>{"yay"}</button>
+        </div>
+      </div>
       <div id="parent">
         <table id="board">
           <tbody>{tbody}</tbody>
@@ -329,21 +354,26 @@ function Board({ ctx, G, moves }) {
           <div>{scoreAndOptions}</div>
         </div>
       </div>
+      </div>
     );
   }
+  /*
   else if (G.isInQuestion) {
+    //timeoutObj = setTimeout(returnToGame, 3000, 'yay');
+
     return (
       <div id="parentQuestion">
         <div id="question">
-          <p>{"What the dog doing?"}<progress value={G.questionTimeLeft} max="20" id="progressBar"></progress></p>
+          <p>{"What the dog doing?"}<progress value={0} max="5" id="progressBar"></progress></p>
           <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{"FIRST ANSWER"}</button>
           <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{"SECOND ANSWER"}</button>
           <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{"THIRD ANSWER"}</button>
           <button name={"Answer 4"} style={answerButton} onClick={() => onAnswerClick(4)}>{"FOURTH ANSWER"}</button>
-          <button name={"Dont Use"} style={answerButton} onClick={() => onAnswerClick(5)}>{"GO BACK"}</button>
+          <button name={"Dont Use"} style={answerButton} onClick={() => returnToGame()}>{"yay"}</button>
         </div>
       </div>
     );
   }
+  */
 }
 export default Board;
