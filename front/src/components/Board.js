@@ -29,7 +29,7 @@ function Board({ ctx, G, moves }) {
     document.getElementById('ans3').style.background = 'red'; 
     document.getElementById('correct').style.background = 'green'; 
     setTimeout(() => {  moves.answer(id); }, 1500);
-    
+    console.log(ctx.activePlayers);
   };
 
   const returnToGame = () => {
