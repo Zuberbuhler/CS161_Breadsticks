@@ -92,23 +92,23 @@ function clickCell(G, ctx, id) {
       ctx.events.setActivePlayers({ all: 'answerQuestion',  minMoves: 1, maxMoves: 1});
       break;
     case 1: // point gain
-      G.scores[ctx.currentPlayer] += 3;
+      G.scores[ctx.currentPlayer] += 5;
       //ctx.events.endStage();
       ctx.events.endTurn();//skip question stage
       break;
     case 2: // point loss
-      G.scores[ctx.currentPlayer] -= 3;
+      G.scores[ctx.currentPlayer] -= 5;
       //ctx.events.endStage();
       ctx.events.endTurn();//skip question stage
       ctx.numMoves--;
       break;
     case 3: // super gain
-      G.scores[ctx.currentPlayer] += 15;
+      G.scores[ctx.currentPlayer] += 10;
       //ctx.events.endStage();
       ctx.events.endTurn();//skip question stage
       break;
     case 4: // super loss
-      G.scores[ctx.currentPlayer] -= 15;
+      G.scores[ctx.currentPlayer] -= 10;
       //ctx.events.endStage();
       ctx.events.endTurn();//skip question stage
       break;
@@ -136,35 +136,33 @@ function rollDie(G, ctx) {
 
 function answer(G, ctx, ans)
 {
-  // checks if the answer was correct
-  console.log(ans);
-  if (ans === 4) {
-    G.scores[ctx.currentPlayer] += 20;
-  }
-  else {
-    G.scores[ctx.currentPlayer] -= 5;
-  }
-  G.playerAnswers[0] = ans;
-  //Transition out of question
-  G.isInQuestion = false;
-  console.log(ctx.activePlayers);
-  //console.log(typeof ctx.activePlayers);
-  //console.log(ctx.activePlayers.length);
+  //console.log("selected:", ans);
+  // Transition out of question state
+  G.isInQuestion = true;
 
   // count how many players remain
   let numPlayers = 0;
   for (const x in ctx.activePlayers) {
-    console.log(x);
     numPlayers += 1;
   }
+
+  if (ans === 4) {
+    G.scores[ctx.playerID] += 20;
+    console.log(ctx.playerID, "just gained 20 points!");
+  } 
+  else {
+    G.scores[ctx.playerID] -= 20;
+    console.log(ctx.playerID, "just lost 20 points!");
+  }
+
+  console.log(ctx.playerID);
+
+  // end turn if every player has gone
+  // the value to check for is 1 because "active players"
+  // doesn't update until after this function returns
   if (numPlayers === 1) {
-    console.log("ok everyone's done");
     G.isInQuestion = false;
     ctx.events.endTurn();
-  }
-  else {
-    G.isInQuestion = true;
-    console.log(ctx.activePlayers);
   }
 }
 
@@ -177,8 +175,8 @@ export const BreadsticksGame = {
     //and an array of arrays for edges, rather than a Graph object
     //It has 7 * 7 = 49 for for 49 tiles, and 50 is used for the dice roll button
     
-    tiles: Array(49).fill(0).map(() => Math.round(Math.random() * 5 + 1)),
-    //tiles: Array(49).fill(0).map(() => 5),
+    //tiles: Array(49).fill(0).map(() => Math.round(Math.random() * 5 + 1)),
+    tiles: Array(49).fill(0).map(() => 5),
     tileEdges: [[1], [2], [3], [4,10], [5], [6], [13],
                 [0], [15], [8], [9,11,17], [4,12], [13], [20],
                 [7,21], [14], [15], [16], [17], [18], [19],
@@ -222,8 +220,7 @@ export const BreadsticksGame = {
     order: 0,
     questionTime: 20,
     questionTimeLeft: 20,
-
-    
+    activePlayersDuplicate: Array(ctx.numPlayers).fill(-1),
   }),
 
   turn: {
