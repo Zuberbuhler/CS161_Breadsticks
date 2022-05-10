@@ -83,13 +83,15 @@ function clickCell(G, ctx, id) {
       //console.log(question_data.question)
       G.questionType = "versus";
       
-      G.question = question_data['question'];
-      G.answer1 = question_data['option1'];
-      G.answer2 = question_data['option2'];
-      G.answer3 = question_data['option3'];
-      G.answer4 = question_data['option4'];
-      G.support = question_data['support'];
-
+      if (question_data['question']) {
+        G.question = question_data['question'];
+        G.answer1 = question_data['option1'];
+        G.answer2 = question_data['option2'];
+        G.answer3 = question_data['option3'];
+        G.answer4 = question_data['option4'];
+        G.support = question_data['support'];
+      }
+      
       //G.questionData = question_data;
 
       G.isInQuestion = true;
@@ -256,7 +258,7 @@ export const BreadsticksGame = {
     questionType: "basic", // other types include "versus", " "highlow", "image"
     questionScores: Array(ctx.numPlayers).fill(0), // the score each player got from the last question
     playerAnswers: Array(ctx.numPlayers).fill(0), // the answer number of each player
-    question: "What is your favorite class?",
+    question: "Welcome to your first question! Answer correctly quickly for more points. Answer wrong and lose points, the slower the more points you lose. What is your favorite class?",
     answer1: "wrong answer",
     answer2: "wrong answer",
     answer3: "wrong answer",
