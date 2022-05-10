@@ -1,9 +1,9 @@
 import { bfsMoveFinder } from "./Queue";
 const axios = require("axios");
 
-function IsVictory(G, ctx) {
-  return false;
-  //return G.gameTurns * ctx.numPlayers === ctx.turn;
+function IsGameOver(G, ctx) {
+  //return true;
+  return G.gameTurns === Math.trunc((ctx.turn - 1) / ctx.numPlayers);
 }
 
 // Return the question here
@@ -122,7 +122,9 @@ function clickCell(G, ctx, id) {
       break;
   }
   G.movements = Array(0);
-  G.dieRoll = 0;
+  //G.dieRoll = 0;
+  if(G.scores[ctx.currentPlayer] < 0)
+    G.scores[ctx.currentPlayer] = 0;
   //ctx.events.endStage();
 }
 
@@ -187,9 +189,9 @@ export const BreadsticksGame = {
     playerPositions: Array(ctx.numPlayers).fill(0),
     starIndex: -1,
     scores: Array(ctx.numPlayers).fill(0),
-    dieRoll: 0,
+    dieRoll: 3,
     movements: Array(0), // the current movement options available to whoever is the player
-    gameTurns: 10,
+    gameTurns: 3,
     //THIS IS VISUAL ONLY, the actual path is in tileEdges,
     //There are the 7 main rows,which have 6 left or right arrows, and then the 6 inbetween rows, which have up and down arrows, and empty tiles
     //Ignoring the middle empty tiles in a square of 4 actual placements,
@@ -250,8 +252,16 @@ export const BreadsticksGame = {
   maxPlayers: 4,
 
   endIf: (G, ctx) => {
-    if (IsVictory(G, ctx)) {
-      return { winner: ctx.currentPlayer };
+    if (IsGameOver(G, ctx)) {
+      const max = Math.max(...G.scores);
+      const indexes = [];
+
+      for (let index = 0; index < G.scores.length; index++) {
+        if (G.scores[index] === max) {
+          indexes.push(index);
+        }
+      }
+      return { winners: indexes };
     }
   },
 };

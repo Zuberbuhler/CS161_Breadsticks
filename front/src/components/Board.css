@@ -32,8 +32,14 @@
   
   #winner {
     margin-top: 25px;
-    width: 168px;
+    width: 300px;
+    background: lightyellow;
     text-align: center;
+  }
+
+  #wrapper {
+    display: flex;
+    flex-direction: row;
   }
   
   basictile {
@@ -42,6 +48,7 @@
     background: url("../graphics/GameTiles1.png");
     cursor: pointer;
     background-repeat: no-repeat;
+    background-position: center;
   }
 
   highlowtile {
@@ -50,6 +57,7 @@
     background: url("../graphics/GameTiles2.png");
     cursor: pointer;
     background-repeat: no-repeat;
+    background-position: center;
   }
 
   versustile {
@@ -58,6 +66,7 @@
     background: url("../graphics/GameTiles3.png");
     cursor: pointer;
     background-repeat: no-repeat;
+    background-position: center;
   }
 
   PointGainTile {
@@ -75,6 +84,7 @@
     background: url("../graphics/GameTiles5.png");
     cursor: pointer;
     background-repeat: no-repeat;
+    background-position: center;
   }
 
   PointLossTile {

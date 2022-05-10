@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './Board.css';
-import BreadsticksGame from "./Game";
 import {bfsMoveFinder} from  "./Queue"
 
 var timeoutObj = null;
@@ -37,16 +35,6 @@ function Board({ ctx, G, moves }) {
     moves.answer(5);
   };
 
-  // Handles game over
-  let winner = '';
-  if (ctx.gameover) {
-    winner =
-      ctx.gameover.winner !== undefined ? (
-        <div id="winner">Game Over! Winner: {ctx.gameover.winner}</div>
-      ) : (
-        <div id="winner">Draw!</div>
-      );
-  }
 
   const tileStyle = {
     border: '0px solid #555',
@@ -62,12 +50,13 @@ function Board({ ctx, G, moves }) {
   };
 
   const playerStyle = {
-    border: '4px solid gold',
-    width: '45px',
-    height: '45px',
+    //border: '4px solid gold',
+    width: '50px',
+    height: '50px',
     position: 'absolute',
     background: 'none',
     pointerEvents: 'none',
+    marginTop: '0px',
   };
 
   const arrowStyle =
@@ -82,10 +71,10 @@ function Board({ ctx, G, moves }) {
   function Icons(props) {
     let playersPresent = props.players; //[1]
 
-    let icons = [<img src="PlayerIcons1.png" style={playerStyle} />,
-    <img src="PlayerIcons2.png" style={playerStyle} />,
-    <img src="PlayerIcons3.png" style={playerStyle} />,
-    <img src="PlayerIcons4.png" style={playerStyle} />];
+    let icons = [<img src="PlayerIconsBoard1.png" style={playerStyle} alt="P1" />,
+    <img src="PlayerIconsBoard2.png" style={playerStyle} alt="P2"/>,
+    <img src="PlayerIconsBoard3.png" style={playerStyle} alt="P3"/>,
+    <img src="PlayerIconsBoard4.png" style={playerStyle} alt="P4"/>];
 
     return (
       <div>
@@ -236,15 +225,23 @@ function Board({ ctx, G, moves }) {
     textAlign: 'center',
     cursor: 'pointer',
     background: '#eeffe9',
+    position: 'relative',
   };
+
+  let diceIcons = [<img src="Dice1.png" style={diceButton} onClick={() => onDiceClick()} alt="D1"/>,
+  <img src="Dice2.png" style={diceButton} onClick={() => onDiceClick() } alt="D2"/>,
+  <img src="Dice3.png" style={diceButton} onClick={() => onDiceClick() } alt="D3"/>,
+  <img src="Dice4.png" style={diceButton} onClick={() => onDiceClick() } alt="D4"/>,
+  <img src="Dice5.png" style={diceButton} onClick={() => onDiceClick() } alt="D5"/>,
+  <img src="Dice6.png" style={diceButton} onClick={() => onDiceClick() } alt="D6"/>,] 
 
   let scoreAndOptions = [];
   scoreAndOptions.push(
-    <tile>
-      {
-        <button style={diceButton} onClick={() => onDiceClick()}>{"Dice:" + G.dieRoll}</button>
-      }
-    </tile>);
+    //<p>
+        diceIcons[G.dieRoll - 1] );
+    //</p>);
+  //<button style={diceButton} onClick={() => onDiceClick()}>{"Dice:" + G.dieRoll}</button>
+
 
   const PlayerScoreStyle = {
     border: '3px solid #555',
@@ -253,8 +250,6 @@ function Board({ ctx, G, moves }) {
     position: 'relative',
     background: 'white',
     pointerEvents: 'none',
-    marginLeft: '30px',
-    marginRight: '20px',
   };
 
   const CurrentlyUpPlayerStyle = {
@@ -264,7 +259,6 @@ function Board({ ctx, G, moves }) {
     position: 'relative',
     background: 'white',
     pointerEvents: 'none',
-    marginLeft: '20px',
   };
 
   const answerButton = {
@@ -287,47 +281,111 @@ function Board({ ctx, G, moves }) {
     background: '#eeffe9',
   }
 
-  let bigIcons = [<img src="PlayerIcons1.png" style={CurrentlyUpPlayerStyle} />,
-  <img src="PlayerIcons2.png" style={CurrentlyUpPlayerStyle} />,
-  <img src="PlayerIcons3.png" style={CurrentlyUpPlayerStyle} />,
-  <img src="PlayerIcons4.png" style={CurrentlyUpPlayerStyle} />];
+  let bigIcons = [<img src="PlayerIcons1.png" style={CurrentlyUpPlayerStyle} alt="P1"/>,
+  <img src="PlayerIcons2.png" style={CurrentlyUpPlayerStyle} alt="P2"/>,
+  <img src="PlayerIcons3.png" style={CurrentlyUpPlayerStyle} alt="P3"/>,
+  <img src="PlayerIcons4.png" style={CurrentlyUpPlayerStyle} alt="P4"/>];
 
-  let icons = [<img src="PlayerIcons1.png" style={PlayerScoreStyle} />,
-  <img src="PlayerIcons2.png" style={PlayerScoreStyle} />,
-  <img src="PlayerIcons3.png" style={PlayerScoreStyle} />,
-  <img src="PlayerIcons4.png" style={PlayerScoreStyle} />];
+  let icons = [<img src="PlayerIcons1.png" style={PlayerScoreStyle} alt="P1"/>,
+  <img src="PlayerIcons2.png" style={PlayerScoreStyle} alt="P2"/>,
+  <img src="PlayerIcons3.png" style={PlayerScoreStyle} alt="P3"/>,
+  <img src="PlayerIcons4.png" style={PlayerScoreStyle} alt="P4"/>];
 
+
+  //Progress bar as timer of a question
+  // https://www.codegrepper.com/code-examples/javascript/30+seconds+countdown+js
+  /*
+  var timeLeft = 20;
+  var downloadTimer = setInterval(function(){
+    if(document.getElementById("progressBar") !== null)
+    {
+      document.getElementById("progressBar").value = 20 - timeLeft;
+      timeLeft -= 1;
+      if(timeLeft < 0){
+        //clearInterval(downloadTimer);
+        timeLeft = 20;
+        console.log("timer done");
+        G.isInQuestion = false;
+      }
+    }
+  }, 1000);
+  */
+
+  const ScoresTextStyle = {
+    border: '3px solid #555',
+    width: '180px',
+    height: '30px',
+    position: 'center',
+    background: 'white',
+    pointerEvents: 'none',
+    margin: 'auto'
+  };
+  
   if (!G.isInQuestion) {
     return (
-      <div id="parent">
-        <table id="board">
-          <tbody>{tbody}</tbody>
-        </table>
-
-        {winner}
-
-        <div id="scores">
-          <p>
-            {ctx.numPlayers > 0 ? icons[0] : (null)}
-            {"Score:" + G.scores[0]}
-          </p>
-          <p>
-            {ctx.numPlayers > 1 ? icons[1] : (null)}
-            {"Score:" + G.scores[1]}
-          </p>
-          <p>
-            {ctx.numPlayers > 2 ? icons[2] : (null)}
-            {"Score:" + G.scores[2]}
-          </p>
-          <p>
-            {ctx.numPlayers > 3 ? icons[3] : (null)}
-            {"Score:" + G.scores[3]}
-          </p>
-          <p>Currently Up:</p>
-          {bigIcons[ctx.currentPlayer]}
-          <p>{"Player " + (ctx.currentPlayer) + "'s Turn"}</p>
-          <div>{scoreAndOptions}</div>
-        </div>
+      <div>
+        {ctx.gameover ?
+          <div id="winner">
+            <div>
+              <div style={ScoresTextStyle}>{"GAME OVER"}</div>
+            </div>
+            {ctx.numPlayers > 0 ?
+              <div id="wrapper">
+                {icons[0]}<div style={ScoresTextStyle}>{"Score:" + G.scores[0]}</div>
+              </div> : (null)}
+            {ctx.numPlayers > 1 ?
+              <div id="wrapper">
+                {icons[1]}<div style={ScoresTextStyle}>{"Score:" + G.scores[1]}</div>
+              </div> : (null)}
+            {ctx.numPlayers > 2 ?
+              <div id="wrapper">
+                {icons[2]}<div style={ScoresTextStyle}>{"Score:" + G.scores[2]}</div>
+              </div> : (null)}
+            {ctx.numPlayers > 3 ?
+              <div id="wrapper">
+                {icons[3]}<div style={ScoresTextStyle}>{"Score:" + G.scores[3]}</div>
+              </div> : (null)}
+            <p style={ScoresTextStyle}>{"--WINNER--"}</p>
+            {ctx.gameover.winners.indexOf(0) !== -1 ? bigIcons[0] : (null)}
+            {ctx.gameover.winners.indexOf(1) !== -1 ? bigIcons[1] : (null)}
+            {ctx.gameover.winners.indexOf(2) !== -1 ? bigIcons[2] : (null)}
+            {ctx.gameover.winners.indexOf(3) !== -1 ? bigIcons[3] : (null)}
+          </div> :
+          <div id="parent">
+            <table id="board">
+              <tbody>{tbody}</tbody>
+            </table>
+            <div id="scores">
+              <div>
+                <div style={ScoresTextStyle}>{"SCORES"}</div>
+              </div>
+              {ctx.numPlayers > 0 ?
+                <div id="wrapper">
+                  {icons[0]}<div style={ScoresTextStyle}>{"Score:" + G.scores[0]}</div>
+                </div> : (null)}
+              {ctx.numPlayers > 1 ?
+                <div id="wrapper">
+                  {icons[1]}<div style={ScoresTextStyle}>{"Score:" + G.scores[1]}</div>
+                </div> : (null)}
+              {ctx.numPlayers > 2 ?
+                <div id="wrapper">
+                  {icons[2]}<div style={ScoresTextStyle}>{"Score:" + G.scores[2]}</div>
+                </div> : (null)}
+              {ctx.numPlayers > 3 ?
+                <div id="wrapper">
+                  {icons[3]}<div style={ScoresTextStyle}>{"Score:" + G.scores[3]}</div>
+                </div> : (null)}
+              <div style={ScoresTextStyle}>{"Turn " + (Math.trunc((ctx.turn - 1) / ctx.numPlayers) + 1) + " Of " + G.gameTurns}</div>
+              <p style={ScoresTextStyle}>{" Currently Up:" + Math.max(G.scores)}</p>
+              {bigIcons[ctx.currentPlayer]}
+              <div>
+                <p style={ScoresTextStyle}>{"Player " + (ctx.currentPlayer) + "'s Turn"}</p>
+                <p style={ScoresTextStyle}>{G.movements.length === 0 ? "Roll Dice" : "Select Move"}</p>
+                {diceIcons[G.dieRoll - 1]}
+              </div>
+            </div>
+          </div>
+        }
       </div>
     );
   }
