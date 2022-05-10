@@ -11,7 +11,7 @@ function Board({ ctx, G, moves }) {
     if (bfsMoveFinder(G.tileEdges, G.playerPositions[ctx.currentPlayer], G.dieRoll).includes(id)) {
       moves.clickCell(id);
     }
-    else console.log("Can't go to " + id);
+    //else console.log("Can't go to " + id);
   };
 
   // handles when a player clicks the die to roll
@@ -20,8 +20,8 @@ function Board({ ctx, G, moves }) {
   }
 
   const onAnswerClick = (id) => {
-    console.log("Player Clicked Answer " + id);
-    //G.playerAnswers[c] = id;
+    //console.log("Player Clicked Answer " + id);
+    
     document.getElementById('ans1').style.background = 'red'; 
     document.getElementById('ans2').style.background = 'red'; 
     document.getElementById('ans3').style.background = 'red'; 
@@ -42,7 +42,7 @@ function Board({ ctx, G, moves }) {
   };
 
   const returnToGame = () => {
-    console.log("Go back");
+    //console.log("Go back");
     moves.answer(5);
   };
 
@@ -292,7 +292,7 @@ function Board({ ctx, G, moves }) {
     textAlign: 'center',
     fontSize: '25px',
     cursor: 'pointer',
-    background: '#eeffe9',
+    background: '#lightblue',
   }
 
   const correctAnswerButton = {
@@ -303,7 +303,7 @@ function Board({ ctx, G, moves }) {
     textAlign: 'center',
     fontSize: '25px',
     cursor: 'pointer',
-    background: '#eeffe9',
+    background: '#lightblue',
   }
 
   let bigIcons = [<img src="PlayerIcons1.png" style={CurrentlyUpPlayerStyle} alt="P1"/>,
@@ -441,10 +441,14 @@ function Board({ ctx, G, moves }) {
             <div id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-                <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-                <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
-                <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <div>
+                  <button class="button-5" name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                  <button class="button-5" name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                </div>
+                <div>
+                  <button class="button-5" name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                  <button class="button-5" name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                </div>
               </div>
             </div>
           );
@@ -453,10 +457,14 @@ function Board({ ctx, G, moves }) {
             <div id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-                <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-                <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
-                <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                <div>
+                <button class="button-5" name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button class="button-5" name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                </div>
+                <div>
+                <button class="button-5" name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <button class="button-5" name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                </div>
               </div>
             </div>
           );
@@ -465,10 +473,14 @@ function Board({ ctx, G, moves }) {
             <div id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-                <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
-                <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-                <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                <div>
+                <button class="button-5" name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button class="button-5" name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                </div>
+                <div>
+                <button class="button-5" name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button class="button-5" name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                </div>
               </div>
             </div>
           );
@@ -477,10 +489,14 @@ function Board({ ctx, G, moves }) {
             <div id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
-                <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-                <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-                <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                <div>
+                <button class="button-5" name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <button class="button-5" name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                </div>
+                <div>
+                <button class="button-5" name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button class="button-5" name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                </div>
               </div>
             </div>
           );

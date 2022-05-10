@@ -57,11 +57,11 @@ export default function Dashboard() {
     }
 
     return (
-        <div>
+        <body>
             <h1>DASHBOARD</h1>
             <h3>Hello, {user?.email}</h3>
-            <button class="button-5" onClick={logout}>Log out</button>
             <button class="button-5" onClick={rooms}>Rooms</button>
-        </div>
+            <button class="button-5" onClick={logout}>Log out</button>
+        </body>
     )
 }

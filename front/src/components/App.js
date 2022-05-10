@@ -34,18 +34,21 @@ export default function App() {
     navigate('/Register');
   }
 
-  const gameClient = () => {
-    navigate('/GameClient');
-  }
+  //const gameClient = () => {
+  //  navigate('/GameClient');
+  //}
 
   return (
-    <div>
-      <h1>Breadsticks</h1>
+    <body>
+      <h1>Welcome to the Breadsticks Game</h1>
       <nav>
         <button class="button-5" onClick={login}>Login</button>
         <button class="button-5" onClick={register}>Register</button>
-        <button class="button-5" onClick={gameClient}>Game Demo</button>
       </nav>
-    </div>
+    </body >
   );
+  /*
+  
+  */
+  //<button class="button-5" onClick={gameClient}>Game Demo</button>
 }

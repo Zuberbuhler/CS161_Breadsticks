@@ -82,7 +82,7 @@ const Rooms = () => {
   };
 
   return (
-    <div>
+    <body>
       {!showChat ? (
         <div className="joinChatContainer">
           <h3>{username}</h3>
@@ -93,19 +93,19 @@ const Rooms = () => {
               setRoom(event.target.value);
             }}
           />
-          <button type='submit' onClick={joinRoom}>Join</button>
-          <button onClick={getActiveRooms}>Refresh Active Rooms</button>
+          <button class="button-5" type='submit' onClick={joinRoom}>Join</button>
+          <button class="button-5" onClick={getActiveRooms}>Refresh Active Rooms</button>
           <h1>{rooms}</h1>
-          <button onClick={back}> Back to Dashboard </button> 
+          <button class="button-5" onClick={back}> Back to Dashboard </button>
         </div>
         
       ) : (
-        <div>
+        <body>
           <Chat socket={socket} username={username} room={room} setShowChat={setShowChat} />
-        </div>
+        </body>
         
       )}
-    </div>
+    </body>
   )
 }
 

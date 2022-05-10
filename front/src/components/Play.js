@@ -16,6 +16,10 @@ const Play = () => {
     board: Board,
     multiplayer: SocketIO({ server: 'localhost:8000' }),
     numPlayers: size,
+    debug: {
+      collapseOnLoad: true,
+      hideToggleButton: true
+    }
   });
 
   return (

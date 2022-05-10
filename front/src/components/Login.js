@@ -159,14 +159,14 @@ function Login() {
                 </p>
                 
             </div>
-
+        </div>
+    );
+    /*
             <div>
                 <button class="button-3" onClick={tester_login}>Login as tester</button>
                 <button class="button-3" onClick={tester2_login}>Login as tester2</button>
             </div>
-        
-        </div>
-    );
+    */
 }
 
 export default Login;
