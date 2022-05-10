@@ -312,6 +312,17 @@ function Board({ ctx, G, moves }) {
     background: '#eeffe9',
   }
 
+  const helpButton = {
+    border: '0px solid #555',
+    width: '40px',
+    height: '40px',
+    lineHeight: '50px',
+    background: 'none',
+    position: 'flex',
+    marginTop: '5px',
+    marginLeft: '75px', 
+  }
+
   let bigIcons = [<img src="PlayerIcons1.png" style={CurrentlyUpPlayerStyle} />,
   <img src="PlayerIcons2.png" style={CurrentlyUpPlayerStyle} />,
   <img src="PlayerIcons3.png" style={CurrentlyUpPlayerStyle} />,
@@ -321,6 +332,14 @@ function Board({ ctx, G, moves }) {
   <img src="PlayerIcons2.png" style={PlayerScoreStyle} />,
   <img src="PlayerIcons3.png" style={PlayerScoreStyle} />,
   <img src="PlayerIcons4.png" style={PlayerScoreStyle} />];
+
+  /* help button 
+  <div>
+  <button style={helpButton} onClick={() => console.log("help")}>
+    <img src="help.webp" width="40px" height= "40px"/>
+  </button>
+  </div>
+  */
 
   if (!G.isInQuestion) {
     return (
