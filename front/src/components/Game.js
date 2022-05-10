@@ -56,6 +56,19 @@ export function numToType(num) {
   }
 }
 
+function spriteName(id) {
+  switch (id) {
+    case "0":
+      return "Racoon";
+    case "1":
+      return "Macaw";
+    case "2":
+      return "Chicken";
+    case "3":
+      return "Charmeleon";
+  }
+}
+
 function clickCell(G, ctx, id) {
   // id is the cell clicked
   G.playerPositions[ctx.currentPlayer] = id; // moves player to cell clicked
@@ -70,13 +83,15 @@ function clickCell(G, ctx, id) {
       //console.log(question_data.question)
       G.questionType = "versus";
       
-      G.question = question_data['question'];
-      G.answer1 = question_data['option1'];
-      G.answer2 = question_data['option2'];
-      G.answer3 = question_data['option3'];
-      G.answer4 = question_data['option4'];
-      G.support = question_data['support'];
-
+      if (question_data['question']) {
+        G.question = question_data['question'];
+        G.answer1 = question_data['option1'];
+        G.answer2 = question_data['option2'];
+        G.answer3 = question_data['option3'];
+        G.answer4 = question_data['option4'];
+        G.support = question_data['support'];
+      }
+      
       //G.questionData = question_data;
 
       G.isInQuestion = true;
@@ -93,22 +108,26 @@ function clickCell(G, ctx, id) {
       break;
     case 1: // point gain
       G.scores[ctx.currentPlayer] += 5;
+      G.publicMessage = "Player " + ctx.playerID + " just gained 5 points! "
       //ctx.events.endStage();
       ctx.events.endTurn();//skip question stage
       break;
     case 2: // point loss
       G.scores[ctx.currentPlayer] -= 5;
+      G.publicMessage = "Player " + ctx.playerID + " just lost 5 points! "
       //ctx.events.endStage();
       ctx.events.endTurn();//skip question stage
       ctx.numMoves--;
       break;
     case 3: // super gain
       G.scores[ctx.currentPlayer] += 10;
+      G.publicMessage = "Player " + ctx.playerID + " just gained 10 points! "
       //ctx.events.endStage();
       ctx.events.endTurn();//skip question stage
       break;
     case 4: // super loss
       G.scores[ctx.currentPlayer] -= 10;
+      G.publicMessage = "Player " + ctx.playerID + " just lost 10 points! "
       //ctx.events.endStage();
       ctx.events.endTurn();//skip question stage
       break;
@@ -148,21 +167,49 @@ function answer(G, ctx, ans)
     numPlayers += 1;
   }
 
+  let points = 20;
+  let pointsToLose = 20;
+  // this means nobody has answered yet, so reset the message
+  if (numPlayers === ctx.numPlayers) {
+    G.publicMessage = "";
+  }
+  switch (ctx.numPlayers - numPlayers) {
+    case 0:
+      points = 20;
+      pointsToLose = 3;
+      break;
+    case 1: 
+      points = 10;
+      pointsToLose = 5;
+      break;
+    case 2: 
+      points = 5;
+      pointsToLose = 10;
+    case 3:
+      points = 3;
+      pointsToLose = 20;
+  }
+  
   if (ans === 4) {
-    G.scores[ctx.playerID] += 20;
-    console.log(ctx.playerID, "just gained 20 points!");
+    G.scores[ctx.playerID] += points;
+    G.publicMessage += spriteName(ctx.playerID) + " just gained " + points + " points! "
+    console.log(ctx.playerID, " just gained 20 points!");
+
   } 
   else {
-    G.scores[ctx.playerID] -= 20;
-    console.log(ctx.playerID, "just lost 20 points!");
+    G.scores[ctx.playerID] -= pointsToLose;
+    G.publicMessage += spriteName(ctx.playerID) + " just lost " + pointsToLose + " points! "
+    console.log(ctx.playerID, " just lost 10 points!");
   }
 
   console.log(ctx.playerID);
 
   // end turn if every player has gone
   // the value to check for is 1 because "active players"
-  // doesn't update until after this function returns
+  // doesn't update until after the function returns
+  
   if (numPlayers === 1) {
+    G.questionOrder = Math.floor(Math.random() * 4);
     G.isInQuestion = false;
     ctx.events.endTurn();
   }
@@ -177,7 +224,7 @@ export const BreadsticksGame = {
     //and an array of arrays for edges, rather than a Graph object
     //It has 7 * 7 = 49 for for 49 tiles, and 50 is used for the dice roll button
     
-    //tiles: Array(49).fill(0).map(() => Math.round(Math.random() * 5 + 1)),
+    // tiles: Array(49).fill(0).map(() => Math.round(Math.random() * 5 + 1)),
     tiles: Array(49).fill(0).map(() => 5),
     tileEdges: [[1], [2], [3], [4,10], [5], [6], [13],
                 [0], [15], [8], [9,11,17], [4,12], [13], [20],
@@ -213,7 +260,7 @@ export const BreadsticksGame = {
     questionType: "basic", // other types include "versus", " "highlow", "image"
     questionScores: Array(ctx.numPlayers).fill(0), // the score each player got from the last question
     playerAnswers: Array(ctx.numPlayers).fill(0), // the answer number of each player
-    question: "What is your favorite class?",
+    question: "Welcome to your first question! Answer correctly quickly for more points. Answer wrong and lose points, the slower the more points you lose. What is your favorite class?",
     answer1: "wrong answer",
     answer2: "wrong answer",
     answer3: "wrong answer",
@@ -223,6 +270,8 @@ export const BreadsticksGame = {
     questionTime: 20,
     questionTimeLeft: 20,
     activePlayersDuplicate: Array(ctx.numPlayers).fill(-1),
+    publicMessage: "",
+    questionOrder: Math.floor(Math.random() * 4),
   }),
 
   turn: {

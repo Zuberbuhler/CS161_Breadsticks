@@ -25,9 +25,20 @@ function Board({ ctx, G, moves }) {
     document.getElementById('ans1').style.background = 'red'; 
     document.getElementById('ans2').style.background = 'red'; 
     document.getElementById('ans3').style.background = 'red'; 
-    document.getElementById('correct').style.background = 'green'; 
-    setTimeout(() => {  moves.answer(id); }, 1500);
-    console.log(ctx.activePlayers);
+    document.getElementById('correct').style.background = 'green';
+  
+    //console.log(ctx.activePlayers);
+
+    let numPlayers = 0;
+    for (const x in ctx.activePlayers) {
+      numPlayers += 1;
+    }
+    if (numPlayers === 1) {
+      setTimeout(() => { moves.answer(id); }, 1500);
+    }
+    else {
+      moves.answer(id);
+    }
   };
 
   const returnToGame = () => {
@@ -65,6 +76,19 @@ function Board({ ctx, G, moves }) {
     width: '50px',
     height: '50px',
     lineHeight: '50px',
+  }
+
+  function spriteName(id) {
+    switch (id) {
+      case "0":
+        return "Racoon";
+      case "1":
+        return "Macaw";
+      case "2":
+        return "Chicken";
+      case "3":
+        return "Charmeleon";
+    }
   }
 
   // returns a DIV of stacked icons on the current tile
@@ -214,7 +238,6 @@ function Board({ ctx, G, moves }) {
       }
       tbody.push(<tr key={i}>{cells2}</tr>);
     }
-
   }
 
   const diceButton = {
@@ -263,20 +286,22 @@ function Board({ ctx, G, moves }) {
 
   const answerButton = {
     border: '1px solid #555',
-    width: '300px',
-    height: '100px',
+    width: '600px',
+    height: '200px',
     lineHeight: '100px',
     textAlign: 'center',
+    fontSize: '25px',
     cursor: 'pointer',
     background: '#eeffe9',
   }
 
   const correctAnswerButton = {
     border: '1px solid #555',
-    width: '300px',
-    height: '100px',
+    width: '600px',
+    height: '200px',
     lineHeight: '100px',
     textAlign: 'center',
+    fontSize: '25px',
     cursor: 'pointer',
     background: '#eeffe9',
   }
@@ -285,6 +310,16 @@ function Board({ ctx, G, moves }) {
   <img src="PlayerIcons2.png" style={CurrentlyUpPlayerStyle} alt="P2"/>,
   <img src="PlayerIcons3.png" style={CurrentlyUpPlayerStyle} alt="P3"/>,
   <img src="PlayerIcons4.png" style={CurrentlyUpPlayerStyle} alt="P4"/>];
+  const helpButton = {
+    border: '0px solid #555',
+    width: '40px',
+    height: '40px',
+    lineHeight: '50px',
+    background: 'none',
+    position: 'flex',
+    marginTop: '5px',
+    marginLeft: '75px', 
+  }
 
   let icons = [<img src="PlayerIcons1.png" style={PlayerScoreStyle} alt="P1"/>,
   <img src="PlayerIcons2.png" style={PlayerScoreStyle} alt="P2"/>,
@@ -351,37 +386,40 @@ function Board({ ctx, G, moves }) {
             {ctx.gameover.winners.indexOf(2) !== -1 ? bigIcons[2] : (null)}
             {ctx.gameover.winners.indexOf(3) !== -1 ? bigIcons[3] : (null)}
           </div> :
-          <div id="parent">
-            <table id="board">
-              <tbody>{tbody}</tbody>
-            </table>
-            <div id="scores">
-              <div>
-                <div style={ScoresTextStyle}>{"SCORES"}</div>
-              </div>
-              {ctx.numPlayers > 0 ?
-                <div id="wrapper">
-                  {icons[0]}<div style={ScoresTextStyle}>{"Score:" + G.scores[0]}</div>
-                </div> : (null)}
-              {ctx.numPlayers > 1 ?
-                <div id="wrapper">
-                  {icons[1]}<div style={ScoresTextStyle}>{"Score:" + G.scores[1]}</div>
-                </div> : (null)}
-              {ctx.numPlayers > 2 ?
-                <div id="wrapper">
-                  {icons[2]}<div style={ScoresTextStyle}>{"Score:" + G.scores[2]}</div>
-                </div> : (null)}
-              {ctx.numPlayers > 3 ?
-                <div id="wrapper">
-                  {icons[3]}<div style={ScoresTextStyle}>{"Score:" + G.scores[3]}</div>
-                </div> : (null)}
-              <div style={ScoresTextStyle}>{"Turn " + (Math.trunc((ctx.turn - 1) / ctx.numPlayers) + 1) + " Of " + G.gameTurns}</div>
-              <p style={ScoresTextStyle}>{" Currently Up:" + Math.max(G.scores)}</p>
-              {bigIcons[ctx.currentPlayer]}
-              <div>
-                <p style={ScoresTextStyle}>{"Player " + (ctx.currentPlayer) + "'s Turn"}</p>
-                <p style={ScoresTextStyle}>{G.movements.length === 0 ? "Roll Dice" : "Select Move"}</p>
-                {diceIcons[G.dieRoll - 1]}
+          <div>
+            <p>{G.publicMessage}</p>
+            <div id="parent">
+              <table id="board">
+                <tbody>{tbody}</tbody>
+              </table>
+              <div id="scores">
+                <div>
+                  <div style={ScoresTextStyle}>{"SCORES"}</div>
+                </div>
+                {ctx.numPlayers > 0 ?
+                  <div id="wrapper">
+                    {icons[0]}<div style={ScoresTextStyle}>{"Score:" + G.scores[0]}</div>
+                  </div> : (null)}
+                {ctx.numPlayers > 1 ?
+                  <div id="wrapper">
+                    {icons[1]}<div style={ScoresTextStyle}>{"Score:" + G.scores[1]}</div>
+                  </div> : (null)}
+                {ctx.numPlayers > 2 ?
+                  <div id="wrapper">
+                    {icons[2]}<div style={ScoresTextStyle}>{"Score:" + G.scores[2]}</div>
+                  </div> : (null)}
+                {ctx.numPlayers > 3 ?
+                  <div id="wrapper">
+                    {icons[3]}<div style={ScoresTextStyle}>{"Score:" + G.scores[3]}</div>
+                  </div> : (null)}
+                <div style={ScoresTextStyle}>{"Turn " + (Math.trunc((ctx.turn - 1) / ctx.numPlayers) + 1) + " Of " + G.gameTurns}</div>
+                <p style={ScoresTextStyle}>{" Currently Up:" + Math.max(G.scores)}</p>
+                {bigIcons[ctx.currentPlayer]}
+                <div>
+                  <p style={ScoresTextStyle}>{"Player " + (ctx.currentPlayer) + "'s Turn"}</p>
+                  <p style={ScoresTextStyle}>{G.movements.length === 0 ? "Roll Dice" : "Select Move"}</p>
+                  {diceIcons[G.dieRoll - 1]}
+                </div>
               </div>
             </div>
           </div>
@@ -397,29 +435,16 @@ function Board({ ctx, G, moves }) {
       <button name={"Dont Use"} style={answerButton} onClick={() => returnToGame()}>{"yay"}</button></div>);
     }
     else {
-      return (
-        <div id="parentQuestion">
-          <div id="question">
-            <p>{G.question}</p>
-            <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-            <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-            <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
-            <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
-          </div>
-        </div>
-      );
-      const rand = Math.floor(Math.random() * 4); // 0 to 3
-      /*
-      switch (rand) {
+      switch (G.questionOrder) {
         case 0:
           return (
             <div id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-                <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-                <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
-                <button name={"Answer 4"} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
               </div>
             </div>
           );
@@ -428,10 +453,10 @@ function Board({ ctx, G, moves }) {
             <div id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-                <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-                <button name={"Answer 4"} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
-                <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
               </div>
             </div>
           );
@@ -440,10 +465,10 @@ function Board({ ctx, G, moves }) {
             <div id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-                <button name={"Answer 4"} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
-                <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-                <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
               </div>
             </div>
           );
@@ -452,15 +477,14 @@ function Board({ ctx, G, moves }) {
             <div id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <button name={"Answer 4"} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
-                <button name={"Answer 1"} style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
-                <button name={"Answer 2"} style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
-                <button name={"Answer 3"} style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
+                <button name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
+                <button name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
+                <button name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
+                <button name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
               </div>
             </div>
           );
       }
-      */
     }
   }
 }

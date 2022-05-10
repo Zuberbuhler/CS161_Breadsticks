@@ -147,7 +147,6 @@ function Chat({socket, username, room, setShowChat}) {
       <div>
         <button class="button-5" onClick={leaveRoom}> Leave Room </button>
         <button class="button-5" onClick={startGame}> Start Game </button>
-        <button class="button-5" onClick={printUsers}> Console Log Users </button>
         <h3>Users: {clients}</h3>
       </div>
     </div>
