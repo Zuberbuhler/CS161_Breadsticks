@@ -20,9 +20,6 @@ const Play = () => {
 
   return (
     <div>
-      <p>room number: {room} </p>
-      <p>MY PLAYER NUMBER IS {id.toString()}</p>
-      <p>number of players is: {size}</p>
       <BreadsticksClient matchID={room} playerID={id.toString()} />
     </div>
   )
