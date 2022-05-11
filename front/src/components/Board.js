@@ -438,67 +438,67 @@ function Board({ ctx, G, moves }) {
       switch (G.questionOrder) {
         case 0:
           return (
-            <div id="parentQuestion">
+            <body id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <div>
+                <div id="wrapper">
                   <button class="button-5" name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
                   <button class="button-5" name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
                 </div>
-                <div>
+                <div id="wrapper">
                   <button class="button-5" name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
                   <button class="button-5" name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
                 </div>
               </div>
-            </div>
+            </body>
           );
         case 1:
           return (
-            <div id="parentQuestion">
+            <body id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <div>
+                <div id="wrapper">
                 <button class="button-5" name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
                 <button class="button-5" name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
                 </div>
-                <div>
+                <div id="wrapper">
                 <button class="button-5" name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
                 <button class="button-5" name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
                 </div>
               </div>
-            </div>
+            </body>
           );
         case 2:
           return (
-            <div id="parentQuestion">
+            <body id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <div>
+                <div id="wrapper">
                 <button class="button-5" name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
                 <button class="button-5" name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
                 </div>
-                <div>
+                <div id="wrapper">
                 <button class="button-5" name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
                 <button class="button-5" name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
                 </div>
               </div>
-            </div>
+            </body>
           );
         case 3:
           return (
-            <div id="parentQuestion">
+            <body id="parentQuestion">
               <div id="question">
                 <p>{G.question}</p>
-                <div>
+                <div id="wrapper">
                 <button class="button-5" name={"Answer 4"} id={'correct'} style={correctAnswerButton} onClick={() => onAnswerClick(4)}>{G.answer4}</button>
                 <button class="button-5" name={"Answer 1"} id='ans1' style={answerButton} onClick={() => onAnswerClick(1)}>{G.answer1}</button>
                 </div>
-                <div>
+                <div id="wrapper">
                 <button class="button-5" name={"Answer 2"} id='ans2' style={answerButton} onClick={() => onAnswerClick(2)}>{G.answer2}</button>
                 <button class="button-5" name={"Answer 3"} id='ans3' style={answerButton} onClick={() => onAnswerClick(3)}>{G.answer3}</button>
                 </div>
               </div>
-            </div>
+            </body>
           );
       }
     }
