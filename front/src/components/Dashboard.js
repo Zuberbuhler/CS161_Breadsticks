@@ -25,13 +25,20 @@ export default function Dashboard() {
     const [registerPassword, setRegisterPassword] = useState("");
 
     const [user, setUser] = useState({})
+    const [guestEmail, setGuestEmail] = useState("");
 
     const auth = getAuth();
+
+    console.log(user?.email);
+    if (user?.email === undefined) {
+        // setGuestEmail("guest");
+        console.log("no email");
+    }
     
     /*
     If the user is NOT already logged in and navigates to this 
     page, redirect to landing page
-    */
+    
     onAuthStateChanged(auth, (currentUser) => {
         if (!currentUser) {
             navigate('/');
@@ -40,6 +47,7 @@ export default function Dashboard() {
             setUser(currentUser)
         }
     });
+    */
 
     /*
     Logs out and navigates to the landing page
@@ -59,7 +67,11 @@ export default function Dashboard() {
     return (
         <body>
             <h1>DASHBOARD</h1>
-            <h3>Hello, {user?.email}</h3>
+            {user?.email === undefined ? 
+                <h3>Hello, guest</h3>
+                :
+                <h3>Hello, {user?.email}</h3>
+            }
             <button class="button-5" onClick={rooms}>Rooms</button>
             <button class="button-5" onClick={logout}>Log out</button>
         </body>
