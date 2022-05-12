@@ -41,6 +41,14 @@ function Login() {
     }
     });
 
+    const offline_login = () => {
+        const user = {
+            email: "tester2@gmail.com",
+        };
+        navigate('/Dashboard');
+    }
+    
+
     /*
     Logs in with provided email and password
     */
@@ -145,6 +153,7 @@ function Login() {
 
             <br></br>
             <button class="button-5" onClick={login}>Login</button>
+            <button class="button-5" onClick={offline_login}>Continue As Guest</button>
             
             <br></br>
             <br></br>

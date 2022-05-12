@@ -28,10 +28,15 @@ const Rooms = () => {
   const [rooms, setRooms] = useState([]);
   const [showChat, setShowChat] = useState(false);
 
+  // gives random guest account
+  if (username === "") {
+    setUsername("guest" + Math.floor((Math.random() * 100000) + 1));
+  }
+
   /* 
   checks if the user is logged in. If they aren't, they
   are sent back to the landing page
-  */
+  
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
         setUser(currentUser)
@@ -43,6 +48,7 @@ const Rooms = () => {
       navigate('/');
     }
   });
+  */
 
   // navigation function
   const back = async () => {
