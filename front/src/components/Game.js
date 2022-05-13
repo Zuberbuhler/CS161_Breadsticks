@@ -226,7 +226,7 @@ export const BreadsticksGame = {
     //and an array of arrays for edges, rather than a Graph object
     //It has 7 * 7 = 49 for for 49 tiles, and 50 is used for the dice roll button
     
-    tiles: Array(49).fill(0).map(() => Math.round(Math.random() * 5 + 1)),
+    tiles: Array(49).fill(0).map(() => Math.floor(Math.random() * 5 + 1)),
     //tiles: Array(49).fill(0).map(() => 5),
     tileEdges: [[1], [2], [3], [4,10], [5], [6], [13],
                 [0,8], [15], [8], [9,11,17], [4,12], [13], [20],
